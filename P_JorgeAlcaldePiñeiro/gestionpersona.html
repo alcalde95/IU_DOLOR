@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Gestión Persona</title>
+    <script type="text/javascript" src="./js/persona.js"></script>
+    <script type="text/javascript" src="./locale/idioma.js"></script>
+    <script type="text/javascript" src="./locale/Lang_ES.js"></script>
+    <script type="text/javascript" src="./locale/Lang_EN.js"></script>
+    <script type="text/javascript" src="./locale/Lang_GA.js"></script>
+    <script type="text/javascript" src="./js/validacionesComunesPersona.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="./js/md5.js"></script>
+  </head>
+  <body onload="ponerinvisibleerror();ponerinvisibleformusuario();getListPersonas();setLang();">
+
+    <h1 class="pagina_persona_wellcome"></h1class></h1>
+    <p onclick="setLang('ES');">ES</p>
+    <p onclick="setLang('EN');">EN</p>
+    <p onclick="setLang('GA');">GA</p>
+    <div id='id_caja_error'>
+      <div id='id_texterror'>adfafaf</div>
+    </div>
+    <img src='./images/add4.png' height="80" width="80" onclick="crearformADDpersona();">
+    <img src='./images/search4.png' height="60" width="60" onclick="crearformSEARCHusuario();">
+    <div>
+      <table id = id_tablaPersonas border='1'>
+        <thead>    
+          <th class="dni">
+          </th>
+          <th class="nombre">
+          </th>
+          <th class="apellido">
+          </th>
+          <th class="fecha_nacimiento">
+          </th>
+          <th class="email">
+          </th>
+          <th class="foto">
+          </th>
+          <th class="direccion">
+          </th>
+          <th class="telefono">
+          </th>
+          <th class="es_jubilado">
+          </th>
+          <th class="descripcion">
+          </th>
+          <th class="titulo_edit">
+          </th>
+          <th class="titulo_delete">
+          </th>
+          <th class="titulo_showcurrent">
+          </th>
+        </thead>
+        <tbody id='id_datospersonas'>
+        </tbody>
+      </table>
+    </div>
+    <div id='id_caja_formulario_persona'>
+      <form id='id_form_persona' name='form_persona' method='post'>
+
+        <label>dni</label>
+        <input type='text' id='id_dni' name='dni'></input>
+        <br>
+        <label>nombre</label>
+        <input type='text' id='id_nombre' name='nombre'></input>
+        <br>
+        <label>apellido</label>
+        <input type='text' id='id_apellido' name='apellido'></input>
+        <br>
+        <label>fecha_nacimiento</label>
+        <input type='text' id='id_fecha_nacimiento' name='fecha_nacimiento'></input>
+        <br>
+        <label>email</label>
+        <input type='text' id='id_email' name='email'></input>
+        <br>
+        <label>foto</label>
+        <input type='text' id='id_foto' name='foto'></input>
+        <br>
+        <label>direccion</label>
+        <input type='text' id='id_direccion' name='direccion'></input>
+        <br>
+        <label>telefono</label>
+        <input type='text' id='id_telefono' name='telefono'></input>
+        <br>
+        <label>es_jubilado</label>
+        <input type='text' id='id_es_jubilado' name='es_jubilado'></input>
+        <br>
+        <label>descripcion</label>
+        <input type='text' id='id_descripcion' name='descripcion'></input>
+        <br>       
+      </form>
+      <br>
+        <img src='' height="80" width="80" id="id_imagen_enviar_form" name="imagen_enviar_form">
+    </div>
+  </body>
+</html>
