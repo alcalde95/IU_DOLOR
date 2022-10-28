@@ -3,23 +3,23 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Gestión Persona</title>
-    <script type="text/javascript" src="./js/persona.js"></script>
-    <script type="text/javascript" src="./locale/idioma.js"></script>
-    <script type="text/javascript" src="./locale/Lang_ES.js"></script>
-    <script type="text/javascript" src="./locale/Lang_EN.js"></script>
-    <script type="text/javascript" src="./locale/Lang_GA.js"></script>
-    <script type="text/javascript" src="./js/validacionesComunesPersona.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="./js/md5.js"></script>
+    <script defer type="text/javascript" src="./js/persona.js"></script>
+    <script defer type="text/javascript" src="./locale/idioma.js"></script>
+    <script defer type="text/javascript" src="./locale/Lang_ES.js"></script>
+    <script defer type="text/javascript" src="./locale/Lang_EN.js"></script>
+    <script defer type="text/javascript" src="./locale/Lang_GA.js"></script>
+    <script defer type="text/javascript" src="./js/validacionesComunes.js"></script>
+    <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script defer type="text/javascript" src="./js/md5.js"></script>
   </head>
-  <body onload="ponerinvisibleerror();ponerinvisibleformusuario();getListPersonas();setLang();">
+  <body onload="ponerinvisibleerror();ponerinvisibleformpersona();devolverpersonasajax();setLang();">
 
     <h1 class="pagina_persona_wellcome"></h1class></h1>
     <p onclick="setLang('ES');">ES</p>
     <p onclick="setLang('EN');">EN</p>
     <p onclick="setLang('GA');">GA</p>
     <div id='id_caja_error'>
-      <div id='id_texterror'>adfafaf</div>
+      <div id='id_texterror'></div><img src="./images/cerrar3.jpg" width="20" height="20" onclick="cerrarMensajeError();"/>
     </div>
     <img src='./images/add4.png' height="80" width="80" onclick="crearformADDpersona();">
     <img src='./images/search4.png' height="60" width="60" onclick="crearformSEARCHusuario();">
@@ -42,10 +42,6 @@
           </th>
           <th class="telefono">
           </th>
-          <th class="es_jubilado">
-          </th>
-          <th class="descripcion">
-          </th>
           <th class="titulo_edit">
           </th>
           <th class="titulo_delete">
@@ -60,36 +56,32 @@
     <div id='id_caja_formulario_persona'>
       <form id='id_form_persona' name='form_persona' method='post'>
 
-        <label>dni</label>
-        <input type='text' id='id_dni' name='dni'></input>
+        <label class='dni'></label>
+        <input class="text_formato_dni" type='text' id='id_dni' name='dni'></input>
         <br>
-        <label>nombre</label>
-        <input type='text' id='id_nombre' name='nombre'></input>
+        <label class="nombre"></label>
+        <input class="text_formato_nombre_persona" type='text' id='id_nombre' name='nombre_persona'></input>
         <br>
-        <label>apellido</label>
-        <input type='text' id='id_apellido' name='apellido'></input>
+        <label class="apellido"></label>
+        <input class="text_formato_apellidos_persona" type='text' id='id_apellido' name='apellidos_persona'></input>
         <br>
-        <label>fecha_nacimiento</label>
-        <input type='text' id='id_fecha_nacimiento' name='fecha_nacimiento'></input>
+        <label class="fecha_nacimiento"></label>
+        <input class="text_formato_fechaNacimiento_persona" type='date' id='id_fecha_nacimiento' name='fechaNacimiento_persona'></input>
         <br>
-        <label>email</label>
-        <input type='text' id='id_email' name='email'></input>
+        <label class="direccion"></label>
+        <input class="text_formato_direccion_persona" type='text' id='id_direccion' name='direccion_persona'></input>
         <br>
-        <label>foto</label>
-        <input type='text' id='id_foto' name='foto'></input>
+        <label class="telefono" class="telefono"></label>
+        <input type='text' id='id_telefono' name='telefono_persona'></input>
         <br>
-        <label>direccion</label>
-        <input type='text' id='id_direccion' name='direccion'></input>
+        <label class="email"></label>
+        <input class="text_formato_email_persona" type='text' id='id_email' name='email_persona'></input>
         <br>
-        <label>telefono</label>
-        <input type='text' id='id_telefono' name='telefono'></input>
+        <label class="foto"></label>
+        <input class="text_formato_foto_persona" type='text' id='id_foto' name='foto_persona'></input>
         <br>
-        <label>es_jubilado</label>
-        <input type='text' id='id_es_jubilado' name='es_jubilado'></input>
-        <br>
-        <label>descripcion</label>
-        <input type='text' id='id_descripcion' name='descripcion'></input>
-        <br>       
+        
+        
       </form>
       <br>
         <img src='' height="80" width="80" id="id_imagen_enviar_form" name="imagen_enviar_form">

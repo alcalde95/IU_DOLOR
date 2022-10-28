@@ -20,11 +20,9 @@ arrayEN={
 		'email' : 'Email',
 		'foto' : 'Photo',
 		'direccion' : 'Address',
-		'telefono' : 'Telephone',
-		'es_jubilado' : 'Retired',
-		'descripcion' : 'Description',
+		'telefono'	: 'Telephone',
 		
-		'accion' : 'Action',
+		'accion' : 'Id Action',
 		'nombre_accion' : 'Action name',
 		'descrip_accion' : 'Description',
 

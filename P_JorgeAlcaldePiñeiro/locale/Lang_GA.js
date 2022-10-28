@@ -20,8 +20,7 @@ arrayGA={
 		'foto' : 'Foto',
 		'direccion' : 'Dirección',
 		'telefono' : 'Teléfono',
-		'es_jubilado' : 'Xubilado',
-		'descripcion' : 'Descripción',
+		
 		'accion' : 'Acción',
 		'nombre_accion' : 'Nome da acción',
 		'descrip_accion' : 'Descripción',

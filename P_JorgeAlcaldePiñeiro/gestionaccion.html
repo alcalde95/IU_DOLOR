@@ -2,24 +2,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Gestión Persona</title>
+    <title>Gestión Accion</title>
     <script type="text/javascript" src="./js/accion.js"></script>
     <script type="text/javascript" src="./locale/idioma.js"></script>
     <script type="text/javascript" src="./locale/Lang_ES.js"></script>
     <script type="text/javascript" src="./locale/Lang_EN.js"></script>
     <script type="text/javascript" src="./locale/Lang_GA.js"></script>
-    <script type="text/javascript" src="./js/validacionesComunesAccion.js"></script>
+    <script type="text/javascript" src="./js/validacionesComunes.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="./js/md5.js"></script>
   </head>
-  <body onload="ponerinvisibleerror();ponerinvisibleformusuario();getListAcciones();setLang();">
+  <body onload="ponerinvisibleerror();ponerinvisibleformaccion();devolveraccionesajax();setLang();">
 
     <h1 class="pagina_accion_wellcome"></h1class></h1>
     <p onclick="setLang('ES');">ES</p>
     <p onclick="setLang('EN');">EN</p>
     <p onclick="setLang('GA');">GA</p>
     <div id='id_caja_error'>
-      <div id='id_texterror'>adfafaf</div>
+      <div id='id_texterror'></div><img src="./images/cerrar3.jpg" width="20" height="20" onclick="cerrarMensajeError();"/>
     </div>
     <img src='./images/add4.png' height="80" width="80" onclick="crearformADDaccion();">
     <img src='./images/search4.png' height="60" width="60" onclick="crearformSEARCHaccion();">

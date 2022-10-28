@@ -12,7 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="./js/md5.js"></script>
   </head>
-  <body onload="ponerinvisibleerror();ponerinvisibleformusuario();getListUsuarios();setLang();">
+  <body onload="ponerinvisibleerror();ponerinvisibleformusuario();devolverusuariosajax();setLang();">
 
     <h1 class="pagina_usuario_wellcome"></h1>
     <p onclick="setLang('ES');">ES</p>
@@ -47,10 +47,10 @@
       <form id='id_form_usuario' name='form_usuario' method='post'>
 
         <label for='id_dni'></label>
-        <input class="text_formato_dni" type='text' id='id_dni' name='dni' placeholder=""></input>
+        <input class="text_formato_dni" type='text' id='id_dni' name='id_dni' placeholder=""></input>
         <br>
         <label class="usuario"></label>
-        <input class="text_formato_usuario" type='text' id='id_usuario' name='usuario'></input>
+        <input class="text_formato_usuario" type='text' id='id_usuario' name='id_usuario'></input>
         <br>
         <div id="caja_select_rol"><label class="id_rol"></label></div>
         

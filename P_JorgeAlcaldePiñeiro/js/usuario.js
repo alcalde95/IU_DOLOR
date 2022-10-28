@@ -37,7 +37,7 @@ function comprobar_usuario(){
 		mensajeKO('id_usuario', 'usuario_largo_ko');
 		return false;
 	}
-	if (!letrassinacentoynumeros('id_usuario')){
+	if (!letras_sin_acento_y_numeros('id_usuario')){
 		mensajeKO('id_usuario', 'usuario_formato_ko');
 		return false;
 	}
@@ -302,6 +302,53 @@ function resetearformusuario(){
 
 }
 
+function usuarioADDAjaxPromesa(){
+
+	crearformoculto('id_form_usuario','');
+	insertacampo('id_form_usuario','controlador', 'usuario');
+	insertacampo('id_form_usuario','action', 'ADD');
+	
+	return new Promise(function(resolve, reject) {
+		$.ajax({
+			method: "POST",
+			url: "http://193.147.87.202/Back/index.php",
+			data: $("#id_form_usuario").serialize(),
+		}).done(res => {
+			if (res.ok != true) {
+				reject(res);
+			}
+			else{
+				resolve(res);
+			}
+		})
+		.fail( function( jqXHR ) {
+			mensajeHTTPFAIL(jqXHR.status);
+		});
+	});
+}
+
+async function ADDusuarioajax() {
+	
+	var idioma = getCookie('lang');
+
+	await usuarioADDAjaxPromesa()
+		.then((res) => {
+			
+			if (res.code = 'SQL_OK'){
+				res.code = 'add_usuario_OK';
+			}
+			mensajeOK(res.code);
+		})
+		.catch((res) => {
+			mensajeFAIL(res.code);
+		});
+
+		setLang();
+		document.getElementById('id_form_usuario').remove();
+		document.getElementById('id_imagen_enviar_form').remove(); 
+}
+
+
 // crearformADDusuario() creado con javascript
 // Este formulario se crea usando la estructura básica del formulario html en gestionusuario.html  
 // Se crea una input image para actuar como un input submit y que el formulario 
@@ -314,7 +361,7 @@ function crearformADDusuario(){
 	resetearformusuario();
 
 	// se rellena el action del formulario
-	document.getElementById('id_form_usuario').action = 'http://193.147.87.202/procesaform.php';
+	document.getElementById('id_form_usuario').action = 'javascript:ADDusuarioajax()';
 	
 	// se coloca el onblur del dni y se pone a vacio el valor (o podriamos hacerlo en el resetearformusuario())
 	document.getElementById('id_dni').onblur = comprobar_dni;
@@ -503,10 +550,53 @@ function crearformSHOWCURRENTusuario(){
 	
 }
 
+function devolverusuariosAjaxPromesa(){
 
-function getListUsuarios(){
+	crearformoculto('form_generico','');
+	insertacampo('form_generico','controlador', 'usuario');
+	insertacampo('form_generico','action', 'SEARCH');
+	
+	return new Promise(function(resolve, reject) {
+		$.ajax({
+			method: "POST",
+			url: "http://193.147.87.202/Back/index.php",
+			data: $("#form_generico").serialize(),
+		}).done(res => {
+			if (res.ok != true) {
+				reject(res);
+			}
+			else{
+				resolve(res);
+			}
+		})
+		.fail( function( jqXHR ) {
+			mensajeHTTPFAIL(jqXHR.status);
+		});
+	});
+}
 
-	listausuarios = devolverusuarios();
+async function devolverusuariosajax() {
+	
+	var idioma = getCookie('lang');
+
+	await devolverusuariosAjaxPromesa()
+		.then((res) => {
+			
+			getListUsuarios(res.resource);
+		
+		})
+		.catch((res) => {
+			mensajeFAIL(res.code);
+        	setLang(idioma);
+		});
+
+		document.getElementById('form_generico').remove();
+}
+
+function getListUsuarios(listausuarios){
+
+	//listausuarios = devolverusuarios();
+	//listausuarios = devolverusuariosajax();
 	
 	$("#id_datosusuarios").html = '';
 

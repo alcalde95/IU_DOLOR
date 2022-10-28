@@ -581,11 +581,54 @@ function crearformSHOWCURRENTrol(id_rol,nombre_rol,descrip_rol){
 	
 }
 
+function devolverrolesAjaxPromesa() {
 
-function getListRol(){
+	crearformoculto('form_generico', '');
+	insertacampo('form_generico', 'controlador', 'rol');
+	insertacampo('form_generico', 'action', 'SEARCH');
 
-	listaroles = devolverRoles();
-	
+	return new Promise(function (resolve, reject) {
+		$.ajax({
+			method: "POST",
+			url: "http://193.147.87.202/Back/index.php",
+			data: $("#form_generico").serialize(),
+		}).done(res => {
+			if (res.ok != true) {
+				reject(res);
+			}
+			else {
+				resolve(res);
+			}
+		})
+			.fail(function (jqXHR) {
+				mensajeHTTPFAIL(jqXHR.status);
+			});
+	});
+}
+
+async function devolverrolesajax() {
+
+	var idioma = getCookie('lang');
+
+	await devolverrolesAjaxPromesa()
+		.then((res) => {
+
+			getListAcciones(res.resource);
+
+		})
+		.catch((res) => {
+			mensajeFAIL(res.code);
+			setLang(idioma);
+		});
+
+	document.getElementById('form_generico').remove();
+}
+
+
+
+
+function getListRol(listaroles){
+
 	$("#id_datosroles").html = '';
 
 	for (let rol of listaroles){

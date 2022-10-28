@@ -570,7 +570,6 @@ function crearformSEARCHusuario(){
 }
 
 
-
 function crearformSHOWCURRENTfuncionalidad(id_funcionalidad,nombre_funcionalidad,descrip_funcionalidad){
 
 	let data = ` ID_funcionalidad: ${id_funcionalidad} \n Nombre: ${nombre_funcionalidad } \n Descripcion: ${descrip_funcionalidad}`
@@ -580,11 +579,54 @@ function crearformSHOWCURRENTfuncionalidad(id_funcionalidad,nombre_funcionalidad
 	resetearformusuario();
 	
 	
+}	
+
+function devolverfuncionalidadesAjaxPromesa() {
+
+	crearformoculto('form_generico', '');
+	insertacampo('form_generico', 'controlador', 'accion');
+	insertacampo('form_generico', 'action', 'SEARCH');
+
+	return new Promise(function (resolve, reject) {
+		$.ajax({
+			method: "POST",
+			url: "http://193.147.87.202/Back/index.php",
+			data: $("#form_generico").serialize(),
+		}).done(res => {
+			if (res.ok != true) {
+				reject(res);
+			}
+			else {
+				resolve(res);
+			}
+		})
+			.fail(function (jqXHR) {
+				mensajeHTTPFAIL(jqXHR.status);
+			});
+	});
 }
 
-function getListFuncionalidad(){
+async function devolverfuncionalidadesajax() {
 
-	listafuncionalidades = devolverfuncionalidades();
+	var idioma = getCookie('lang');
+
+	await devolverfuncionalidadesAjaxPromesa()
+		.then((res) => {
+
+			getListFuncionalidad(res.resource);
+
+		})
+		.catch((res) => {
+			mensajeFAIL(res.code);
+			setLang(idioma);
+		});
+
+	document.getElementById('form_generico').remove();
+}
+
+
+function getListFuncionalidad(listafuncionalidades){
+
 	
 	$("#id_datosfuncionalidades").html = '';
 

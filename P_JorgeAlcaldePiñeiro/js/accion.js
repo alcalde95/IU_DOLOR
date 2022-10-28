@@ -1,231 +1,3 @@
-const mensaje = (idElemento, texto = '') => {
-    if (texto === '') {
-        document.getElementById('id_texterror').innerHTML = ''
-        document.getElementById('id_caja_error').style.display = 'none'
-        document.getElementById(idElemento).style.borderColor = "#00e600"
-    } else {
-        document.getElementById('id_texterror').innerHTML = texto
-        document.getElementById('id_caja_error').style.display = 'block'
-        document.getElementById(idElemento).style.borderColor = "#ff0000"
-    }
-}
-// comprobar_form_usuario_add()
-// funcion para validar el submit del formulario usuario para las acciones que no sean search
-
-function comprobar_form_usuario_add(){
-	alert('entro en comprobar_form_usuario_add');
-
-	if (comprobar_dni() && comprobar_usuario() && comprobar_id_rol()){
-		return true;
-	}
-	else{
-		return false;
-	}
-}
-
-// comprobar_form_usuario_search()
-// funcion para validar el submit del formulario de usuario para la accion search
-function comprobar_form_usuario_search(){
-	alert('entro en comprobar_form_usuario_search');
-
-	if (comprobar_dni_search() && comprobar_usuario_search() && comprobar_id_rol_search()){
-		return true;
-	}
-	else{
-		return false;
-	}
-}
-
-// comprobar_usuario()
-// funcion de validación de formato de usuario en acciones que no sean search
-function comprobar_usuario(){
-
-	if (!size_minimo('id_usuario',3)){
-		mensajeKO('id_usuario', 'Tamaño login demasiado corto (min 3 caracteres)');
-		return false;
-	}
-	if (!size_maximo('id_usuario',15)){
-		mensajeKO('id_usuario', 'Tamaño login demasiado largo (max 15 caracteres)');
-		return false;
-	}
-	if (!letrassinacentoynumeros('id_usuario')){
-		mensajeKO('id_usuario', 'El login contiene carecteres no permitidos (solo letras sin acentos y números)');
-		return false;
-	}
-
-	mensajeOK('id_usuario');
-	return true;
-
-}
-
-// comprobar_usuario_search()
-// funcion de validación de formato de usuario en search
-function comprobar_usuario_search(){
-	return true;
-}
-
-// comprobar_dni()
-// funcion de validación de formato de dni en acciones que no sean search
-
-
-
-
-
-const comprobar_dni = (dni = document.getElementById('id_dni').value) => {
-    var numero
-    var letr
-    var letra
-    let expresion_regular_dni = /^\d{8}[a-zA-Z]$/;
-    if (expresion_regular_dni.test(dni) == true) {
-        numero = dni.substr(0, dni.length - 1);
-        letr = dni.substr(dni.length - 1, 1);
-        numero = numero % 23;
-        letra = 'TRWAGMYFPDXBNJZSQVHLCKET';
-        letra = letra.substring(numero, numero + 1);
-        if (letra != letr.toUpperCase()) {
-            mensaje('dni', 'La letra no coincide con los números');
-            return false;
-        }
-        else {
-            mensaje('dni');
-            return true;
-        }
-    } else {
-        mensaje('dni', 'Formato de dni incorrecto');
-        return false;
-    }
-}
-
-const comprobar_nombre = (nombre = document.getElementById('id_nombre').value) => {
-    if (nombre.length < 3) {
-        mensaje('nombre', 'el nombre debe tener al menos 3 caracteres')
-        return false;
-    }
-
-    if (nombre.length > 45) {
-        mensaje('nombre', 'el nombre debe tener como máximo 30 caracteres')
-        return false;
-    }
-    else {
-        mensaje('nombre');
-        return true;
-    }
-
-}
-const comprobar_apellido = (apellido = document.getElementById('id_apellido').value) => {
-    if (apellido.length < 3) {
-        mensaje('apellido', 'el apellido debe tener al menos 3 caracteres')
-        return false;
-    }
-    if (apellido.length > 45) {
-        mensaje('apellido', 'el apellido debe tener como máximo 60 caracteres')
-        return false;
-    }
-    else {
-        mensaje('apellido');
-        return true;
-    }
-
-}
-
-const comprobar_fecha_nacimiento = (date = document.getElementById('id_fecha_nacimiento').value) => {
-    if (!document.getElementById('fecha_de_nacimiento').value instanceof Date) {
-        mensaje('fecha_de_nacimiento', 'la fecha introducida no existe');
-        return false;
-    }
-    else {
-        mensaje('fecha_de_nacimiento');
-        return true;
-    }
-}
-
-const comprobar_foto = (email_persona = document.getElementById('id_foto').value) => {
-    let expresion_regular_email = /[a-zA-Z0-9]+@[a-zA-Z0-9]\.[[a-zA-Z]{2,3}/;
-    if (expresion_regular_email.test(email_persona)) {
-        mensaje('email_persona');
-        return true;
-    } else {
-        mensaje('email_persona', 'La dirección de email es incorrecta.');
-        return false;
-    }
-}
-
-const comprobar_direccion = (direccion_persona = document.getElementById('id_direccion').value) => {
-    if (direccion_persona.length < 3) {
-        mensaje('direccion_persona', 'la direccion debe tener al menos 3 caracteres');
-        return false;
-    }
-    if (direccion_persona.length > 90) {
-        mensaje('direccion_persona', 'la direccion debe tener como máximo 90 caracteres');
-        return false;
-    }
-    else {
-        mensaje('direccion_persona');
-        return true;
-    }
-
-}
-
-const comprobar_telefono = (telefono = document.getElementById('id_telefono').value) => {
-    if (telefono.length < 9 || telefono.length > 9) {
-        mensaje('telefono', 'el teléfono debe estar formado por 9 dígitos');
-        return false;
-    }
-    let expresion_regular_tlf = /([0-9]){9}/g;
-    if (!expresion_regular_tlf.test(telefono)) {
-        mensaje('telefono', 'la direccion debe tener como máximo 90 caracteres');
-        return false;
-    }
-    else {
-        mensaje('telefono');
-        return true;
-    }
-
-}
-
-const comprobar_es_jubilado = (es_jubilado = document.getElementById('id_es_jubilado').value) => {
-
-    if (es_jubilado.toUpperCase !== 'SI' || es_jubilado.toUpperCase !== 'NO') {
-        mensaje('es_jubilado', 'tiene que responder SI o NO');
-        return false;
-    }
-
-    else {
-        mensaje('es_jubilado');
-        return true;
-    }
-
-}
-
-const comprobar_descripcion = (descripcion = document.getElementById('id_descripcion').value) => {
-    if (descripcion.length<1 ||descripcion.length>1000){
-        mensaje('descripcion','no puede estar vacío o tener más de 1000 caracteres la descripcion')
-    }else{
-        mensaje('descripcion');
-        return true;
-    }
-}
-
-
-// comprobar_dni_search()
-// funcion de validación de formato de dni en search
-function comprobar_dni_search(){
-	return true;
-}
-
-// comprobar_id_rol()
-// funcion de validacion del formato de id_rol en acciones que no son search
-function comprobar_id_rol(){
-	return true;
-}
-
-// comprobar_id_rol_search()
-// funcion de validacion del formato de id_rol
-function comprobar_id_rol_search(){
-	return true;
-}
-
-
 // crearselect(
 // id que va tener el select, 
 // name que va tener el select, 
@@ -257,29 +29,27 @@ function crearselect(id, name, valueoption, textoption, datos, itemseleccionado)
 
 // peticionADDusuarioBack()
 // funcion que utilizariamos para hacer una solicitud a back para añadir un usuario
-function peticionADDusuarioBack(){
+function peticionADDaccionBack(){
 
 	alert('peticion a back add');
-	document.getElementById('id_form_usuario').submit();
-	
+	ADDaccionajax();
 }
 
 // peticionEDITusuarioBack()
 // funcion que utilizariamos para hacer una solicitud a back para editar un usuario
-function peticionEDITusuarioBack(){
+function peticionEDITaccionBack(){
 
 	alert('peticion a back edit');
-	document.getElementById('id_form_usuario').submit();
+	EDITaccionajax();
 	
 }
 
 // peticionDELETEusuarioBack()
 // funcion que utilizariamos para hacer una solicitud a back para borrar un usuario
-function peticionDELETEusuarioBack(){
+function peticionDELETEaccionBack(){
 
 	alert('peticion a back delete');
-	document.getElementById('id_form_usuario').submit();
-	
+	EDITaccionajax();
 }
 
 // devolverroles()
@@ -314,11 +84,11 @@ function devolverroles(){
 // funcion a ser ejecutada cuando se completa el formulario al pulsar sobre la imagen
 // llama a la funcion de petición pq no es necesario comprobación de formularios.
 // en esta funcion de petición se provoca el submit para que se ejecute la accion
-function add_usuario(){
+function add_accion(){
 
-	if (comprobar_form_usuario_add()){
-		peticionADDusuarioBack();
-	}
+	
+		peticionADDaccionBack();
+	
 
 }
 
@@ -326,11 +96,9 @@ function add_usuario(){
 // funcion a ser ejecutada cuando se completa el formulario al pulsar sobre la imagen
 // llama a la funcion de petición pq no es necesario comprobación de formularios.
 // en esta funcion de petición se provoca el submit para que se ejecute la accion
-function edit_usuario(){
+function edit_accion(){
 
-	if (comprobar_form_usuario_add()){
-		peticionEDITusuarioBack();
-	}
+		peticionEDITaccionBack();
 
 }
 
@@ -338,9 +106,9 @@ function edit_usuario(){
 // funcion a ser ejecutada cuando se completa el formulario al pulsar sobre la imagen
 // llama a la funcion de petición pq no es necesario comprobación de formularios.
 // en esta funcion de petición se provoca el submit para que se ejecute la accion
-function delete_usuario(){
+function delete_accion(){
 
-	peticionDELETEusuarioBack();
+	peticionDELETEaccionBack();
 
 }
 
@@ -357,18 +125,12 @@ function search_usuario(){
 // resetearformusuario()
 // esta función se usa para inicializar el formulario y siempre este de la misma manera antes de entrar en las funciones que construyen los formularios de acciones
 // aqui solo eliminamos el select. Podriamos tambien hacer un remove() en vez de desasignarlo
-function resetearformusuario(){
-
-	// eliminar el select
-	selectviejorol = document.getElementById('id_id_rol');
-	if (!(selectviejorol === null)){
-		document.getElementById('caja_select_rol').removeChild(selectviejorol);
-	}
+function resetearformaccion(){
 
 	// quitar el readonly de los atributos
-	$("#id_dni").attr('readonly',false);
-	$("#id_usuario").attr('readonly',false);
-	$("#id_id_rol").attr('readonly',false);
+	$("#id_accion").attr('readonly',false);
+	$("#nombre_accion").attr('readonly',false);
+	$("#descrip_accion").attr('readonly',false);
 
 	// eliminar el boton de submit de formulario
 	$("#id_boton_buscar_usuario").remove();
@@ -377,7 +139,7 @@ function resetearformusuario(){
 	$("#id_imagen_enviar_form").remove();
 
 	// se pone visible el formulario
-	$("#id_caja_formulario_persona").attr('style', 'display: none');
+	$("#id_caja_formulario_accion").attr('style', 'display: none');
 
 }
 
@@ -386,11 +148,55 @@ function resetearformusuario(){
 // Se crea una input image para actuar como un input submit y que el formulario 
 // llame a la funcion add_usuario al pulsarla y esta llama a peticionADDusuarioBack que provoca el submit del formulario
 // y se ejecuta el action
+function accionADDjaxPromesa() {
 
+	crearformoculto('id_form_accion', '');
+	insertacampo('id_form_accion', 'controlador', 'accion');
+	insertacampo('id_form_accion', 'action', 'ADD');
+
+	return new Promise(function (resolve, reject) {
+		$.ajax({
+			method: "POST",
+			url: "http://193.147.87.202/Back/index.php",
+			data: $("#id_form_accion").serialize(),
+		}).done(res => {
+			if (res.ok != true) {
+				reject(res);
+			}
+			else {
+				resolve(res);
+			}
+		})
+			.fail(function (jqXHR) {
+				mensajeHTTPFAIL(jqXHR.status);
+			});
+	});
+}
+
+async function ADDaccionajax() {
+
+	var idioma = getCookie('lang');
+
+	await accionADDjaxPromesa()
+		.then((res) => {
+
+			if (res.code = 'SQL_OK') {
+				res.code = 'add_accion_OK';
+			}
+			mensajeOK(res.code);
+		})
+		.catch((res) => {
+			mensajeFAIL(res.code);
+		});
+
+	setLang();
+	document.getElementById('id_form_accion').remove();
+	document.getElementById('id_imagen_enviar_form').remove();
+}
 function crearformADDaccion(){
 
 	// resetear el formulario
-	resetearformusuario();
+	resetearformaccion();
 
 	// se rellena el action del formulario
 	document.getElementById('id_form_accion').action = 'http://193.147.87.202/procesaform.php';
@@ -407,7 +213,7 @@ function crearformADDaccion(){
 	imagenenviarform.height = '80';
 	document.body.appendChild(imagenenviarform);
 	// se coloca una función onclick que hará las comprobaciones y el submit
-	document.getElementById('id_imagen_enviar_form').onclick = add_usuario;
+	document.getElementById('id_imagen_enviar_form').onclick = add_accion;
 
 	// se muestra el formulario
 	document.getElementById('id_caja_formulario_accion').style.display = 'block';
@@ -420,10 +226,56 @@ function crearformADDaccion(){
 // llame a la funcion edit_usuario al pulsarla y esta llama a peticionEDITusuarioBack que provoca el submit del formulario
 // y se ejecuta el action
 
+function accionEDITjaxPromesa() {
+
+	crearformoculto('id_form_accion', '');
+	insertacampo('id_form_accion', 'controlador', 'accion');
+	insertacampo('id_form_accion', 'action', 'EDIT');
+
+	return new Promise(function (resolve, reject) {
+		$.ajax({
+			method: "POST",
+			url: "http://193.147.87.202/Back/index.php",
+			data: $("#id_form_accion").serialize(),
+		}).done(res => {
+			if (res.ok != true) {
+				reject(res);
+			}
+			else {
+				resolve(res);
+			}
+		})
+			.fail(function (jqXHR) {
+				mensajeHTTPFAIL(jqXHR.status);
+			});
+	});
+}
+
+async function EDITaccionajax() {
+
+	var idioma = getCookie('lang');
+
+	await accionEDITjaxPromesa()
+		.then((res) => {
+
+			if (res.code = 'SQL_OK') {
+				res.code = 'edit_accion_OK';
+			}
+			mensajeOK(res.code);
+		})
+		.catch((res) => {
+			mensajeFAIL(res.code);
+		});
+
+	setLang();
+	document.getElementById('id_form_accion').remove();
+	document.getElementById('id_imagen_enviar_form').remove();
+}
+
 function crearformEDITaccion(id_accion,nombre_accion,descrip_accion){
 
 	// resetear al formulario
-	resetearformusuario();
+	resetearformaccion();
 	
 	// se crea el action del formulario 
 	$("#id_form_persona").attr('action','http://193.147.87.202/procesaform.php');
@@ -446,7 +298,7 @@ function crearformEDITaccion(id_accion,nombre_accion,descrip_accion){
 	imagenenviarform.height = '80';
 	document.body.appendChild(imagenenviarform);
 	// se coloca una función onclick que hará las comprobaciones y el submit
-	$("#id_imagen_enviar_form").on('click', edit_usuario);
+	$("#id_imagen_enviar_form").on('click', edit_accion);
 	
 	// se muestra el formulario
 	$("#id_caja_formulario_accion").attr('style', 'display: block');
@@ -458,9 +310,56 @@ function crearformEDITaccion(id_accion,nombre_accion,descrip_accion){
 // llame a la funcion delete_usuario al pulsarla y esta llama a peticionDELETEusuarioBack que provoca el submit del formulario
 // y se ejecuta el action
 
+function accionDELETEjaxPromesa() {
+
+	crearformoculto('id_form_accion', '');
+	insertacampo('id_form_accion', 'controlador', 'accion');
+	insertacampo('id_form_accion', 'action', 'DELETE');
+
+	return new Promise(function (resolve, reject) {
+		$.ajax({
+			method: "POST",
+			url: "http://193.147.87.202/Back/index.php",
+			data: $("#id_form_accion").serialize(),
+		}).done(res => {
+			if (res.ok != true) {
+				reject(res);
+			}
+			else {
+				resolve(res);
+			}
+		})
+			.fail(function (jqXHR) {
+				mensajeHTTPFAIL(jqXHR.status);
+			});
+	});
+}
+
+async function DELETEaccionajax() {
+
+	var idioma = getCookie('lang');
+
+	await accionDELETEjaxPromesa()
+		.then((res) => {
+
+			if (res.code = 'SQL_OK') {
+				res.code = 'delete_accion_OK';
+			}
+			mensajeOK(res.code);
+		})
+		.catch((res) => {
+			mensajeFAIL(res.code);
+		});
+
+	setLang();
+	document.getElementById('id_form_accion').remove();
+	document.getElementById('id_imagen_enviar_form').remove();
+}
+
+
 function crearformDELETEaccion(id_accion,nombre_accion,descrip_accion){
 
-	resetearformusuario();
+	resetearformaccion();
 	
 	$("#id_form_accion").attr('action','http://193.147.87.202/procesaform.php');
 	
@@ -482,7 +381,7 @@ function crearformDELETEaccion(id_accion,nombre_accion,descrip_accion){
 	imagenenviarform.height = '80';
 	document.body.appendChild(imagenenviarform);
 	// se coloca una función onclick que hará las comprobaciones y el submit
-	$("#id_imagen_enviar_form").on('click', delete_usuario);
+	$("#id_imagen_enviar_form").on('click', delete_accion);
 
 	$("#id_caja_formulario_accion").attr('style', 'display: block');
 }
@@ -565,10 +464,52 @@ function devolveracciones(){
 
 }
 
+function devolveraccionesAjaxPromesa() {
 
-function getListAcciones(){
+	crearformoculto('form_generico', '');
+	insertacampo('form_generico', 'controlador', 'accion');
+	insertacampo('form_generico', 'action', 'SEARCH');
 
-	listaacciones = devolveracciones();
+	return new Promise(function (resolve, reject) {
+		$.ajax({
+			method: "POST",
+			url: "http://193.147.87.202/Back/index.php",
+			data: $("#form_generico").serialize(),
+		}).done(res => {
+			if (res.ok != true) {
+				reject(res);
+			}
+			else {
+				resolve(res);
+			}
+		})
+			.fail(function (jqXHR) {
+				mensajeHTTPFAIL(jqXHR.status);
+			});
+	});
+}
+
+async function devolveraccionesajax() {
+
+	var idioma = getCookie('lang');
+
+	await devolveraccionesAjaxPromesa()
+		.then((res) => {
+
+			getListAcciones(res.resource);
+
+		})
+		.catch((res) => {
+			mensajeFAIL(res.code);
+			setLang(idioma);
+		});
+
+	document.getElementById('form_generico').remove();
+}
+
+function getListAcciones(listaacciones){
+
+	
 	
 	$("#id_datosacciones").html = '';
 

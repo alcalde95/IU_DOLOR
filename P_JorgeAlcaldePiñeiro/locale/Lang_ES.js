@@ -20,8 +20,6 @@ arrayES={
 		'foto' : 'foto',
 		'direccion' : 'direccion',
 		'telefono' : 'telefono',
-		'es_jubilado' : 'es_jubilado',
-		'descripcion' : 'descripcion',
 		
 		'accion' : 'Acción',
 		'nombre_accion' : 'Nombre de la acción',
