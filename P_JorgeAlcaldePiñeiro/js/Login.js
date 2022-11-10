@@ -1,5 +1,5 @@
 function comprobar_form_login(){
-	if (comprobar_login() && comprobar_password()){
+	if (comprobar_usuario() && comprobar_contrasena()){
 		encriptarpassword();
 		return true;
 	}
@@ -9,44 +9,139 @@ function comprobar_form_login(){
 	
 }
 
-function comprobar_login(){
+function comprobar_usuario(){
 
-	if (!size_minimo('id_login',3)){
-		mensajeKO('id_login', 'Tamaño login demasiado corto (min 3 caracteres)');
+	if (!MinSize('id_usuario',3)){
+		mensajeKO('id_usuario', 'usuario_corto_ko');
 		return false;
 	}
-	if (!size_maximo('id_login',15)){
-		mensajeKO('id_login', 'Tamaño login demasiado largo (max 15 caracteres)');
+	if (!MaxSize('id_usuario',15)){
+		mensajeKO('id_usuario', 'usuario_largo_ko');
 		return false;
 	}
-	if (!letrassinacentoynumeros('id_login')){
-		mensajeKO('id_login', 'El login contiene carecteres no permitidos (solo letras sin acentos y números)');
+	if (!letrassinacentoynumeros('id_usuario')){
+		mensajeKO('id_usuario', 'usuario_formato_ko');
 		return false;
 	}
 
-	mensajeOK('id_login');
+	mensajeOK('id_usuario');
 	return true;
 
 }
 
-function comprobar_password(){
+function comprobar_contrasena(){
 
-	if (!size_minimo('id_password',3)){
-		mensajeKO('id_password', 'Tamaño password demasiado corto (min 3 caracteres)');
+	if (!MinSize('id_contrasena',3)){
+		mensajeKO('id_contrasena', 'contrasena_corto_ko');
 		return false;
 	}
-	if (!size_maximo('id_password',15)){
-		mensajeKO('id_password', 'Tamaño password demasiado largo (max 15 caracteres)');
+	if (!MaxSize('id_contrasena',15)){
+		mensajeKO('id_contrasena', 'contrasena_largo_ko');
 		return false;
 	}
-	if (!letrassinacentoynumeros('id_password')){
-		mensajeKO('id_password', 'El password contiene carecteres no permitidos (solo letras sin acentos y números)');
+	if (!letrassinacentoynumeros('id_contrasena')){
+		mensajeKO('id_contrasena', 'contrasena_formato_ko');
 		return false;
 	}
 
-	mensajeOK('id_password');
+	mensajeOK('id_contrasena');
 	return true;
 
 }
 
+//Función ajax con promesas
+function loginAjaxPromesa(){
+
+	insertacampo('id_form_login','controlador', 'AUTH');
+	insertacampo('id_form_login','action', 'LOGIN');
+	
+	return new Promise(function(resolve, reject) {
+		$.ajax({
+			method: "POST",
+			url: "http://193.147.87.202/Back/index.php",
+			data: $("#id_form_login").serialize(),
+		}).done(res => {
+			if (res.code != 'LOGIN_OK') {
+				reject(res);
+			}
+			else{
+				resolve(res);
+			}
+		})
+		.fail( function( jqXHR ) {
+			mensajeFAIL(jqXHR.status);
+		});
+	});
+}
+
+async function login() {
+	
+	var idioma = getCookie('lang');
+
+	await loginAjaxPromesa()
+		.then((res) => {
+			setCookie('token', res.resource);
+			setCookie('usuarioSistema', document.getElementById("id_usuario").value);
+			window.location.href = "menu.html";
+		})
+		.catch((res) => {
+			mensajeFAIL(res.code);
+	    	//eliminarcampo('controlador');
+	    	//eliminarcampo('action');
+        	setLang(idioma);
+		});
+	
+}
+
+
+
+function registroAjaxPromesa(){
+
+	insertacampo('id_form_registro','controlador', 'AUTH');
+	insertacampo('id_form_registro','action', 'REGISTRAR');
+	
+	return new Promise(function(resolve, reject) {
+		$.ajax({
+			method: "POST",
+			url: "http://193.147.87.202/Back/index.php",
+			data: $("#id_form_registro").serialize(),
+		}).done(res => {
+			if (res.code != 'REGISTRAR_OK') {
+				reject(res);
+			}
+			else{
+				resolve(res);
+			}
+		})
+		.fail( function( jqXHR ) {
+			mensajeFAIL(jqXHR.status);
+		});
+	});
+}
+
+async function registrarse() {
+	
+	var idioma = getCookie('lang');
+
+	await registroAjaxPromesa()
+		.then((res) => {
+			setCookie('token', res.resource);
+			window.location.href = "login.html";
+		})
+		.catch((res) => {
+			mensajeFAIL(res.code);
+	    	//eliminarcampo('controlador');
+	    	//eliminarcampo('action');
+        	setLang(idioma);
+		});
+	
+}
+
+function registro(){
+	if(comprobar_contrasena() && comprobar_usuario()){
+		encriptarpassword();
+		registrarse();
+	}
+	return false;
+}
 

@@ -12,12 +12,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="./js/md5.js"></script>
   </head>
-  <body onload="ponerinvisibleerror();ponerinvisibleformaccion();devolveraccionesajax();setLang();">
+  <body onload="incluircabecera();esta_autenticado();ponerinvisibleerror();ponerinvisibleformaccion();devolveraccionesajax();setLang();">
 
     <h1 class="pagina_accion_wellcome"></h1class></h1>
-    <p onclick="setLang('ES');">ES</p>
-    <p onclick="setLang('EN');">EN</p>
-    <p onclick="setLang('GA');">GA</p>
+    <div id='id_caja_superior'></div>
     <div id='id_caja_error'>
       <div id='id_texterror'></div><img src="./images/cerrar3.jpg" width="20" height="20" onclick="cerrarMensajeError();"/>
     </div>
@@ -47,18 +45,19 @@
     <div id='id_caja_formulario_accion'>
       <form id='id_form_accion' name='form_accion' method='post'>
 
-        <label>id_accion</label>
+        <label class='accion'></label>
         <input type='text' id='id_accion' name='id_accion'></input>
         <br>
-        <label>nombre_accion</label>
+        <label class='nombre_accion'></label>
         <input type='text' id='nombre_accion' name='nombre_accion'></input>
         <br>
-        <label>descrip_accion</label>
+        <label class='descrip_accion'></label>
         <input type='text' id='descrip_accion' name='descrip_accion'></input>
         <br>
       </form>
       <br>
         <img src='' height="80" width="80" id="id_imagen_enviar_form" name="imagen_enviar_form">
     </div>
+    <a href="menu.html">Atrás</a>
   </body>
 </html>

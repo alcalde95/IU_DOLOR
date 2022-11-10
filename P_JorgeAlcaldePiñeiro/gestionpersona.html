@@ -12,17 +12,14 @@
     <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script defer type="text/javascript" src="./js/md5.js"></script>
   </head>
-  <body onload="ponerinvisibleerror();ponerinvisibleformpersona();devolverpersonasajax();setLang();">
-
+  <body onload="incluircabecera();ponerinvisibleerror();ponerinvisibleformpersona();devolverpersonasajax();setLang();esta_autenticado();">
     <h1 class="pagina_persona_wellcome"></h1class></h1>
-    <p onclick="setLang('ES');">ES</p>
-    <p onclick="setLang('EN');">EN</p>
-    <p onclick="setLang('GA');">GA</p>
+    <div id='id_caja_superior'></div>
     <div id='id_caja_error'>
       <div id='id_texterror'></div><img src="./images/cerrar3.jpg" width="20" height="20" onclick="cerrarMensajeError();"/>
     </div>
     <img src='./images/add4.png' height="80" width="80" onclick="crearformADDpersona();">
-    <img src='./images/search4.png' height="60" width="60" onclick="crearformSEARCHusuario();">
+    <img src='./images/search4.png' height="60" width="60" onclick="crearformSEARCHpersona();">
     <div>
       <table id = id_tablaPersonas border='1'>
         <thead>    
@@ -71,8 +68,8 @@
         <label class="direccion"></label>
         <input class="text_formato_direccion_persona" type='text' id='id_direccion' name='direccion_persona'></input>
         <br>
-        <label class="telefono" class="telefono"></label>
-        <input type='text' id='id_telefono' name='telefono_persona'></input>
+        <label class="telefono"></label>
+        <input class="text_formato_telefono_persona" type='text' id='id_telefono' name='telefono_persona'></input>
         <br>
         <label class="email"></label>
         <input class="text_formato_email_persona" type='text' id='id_email' name='email_persona'></input>
@@ -86,5 +83,7 @@
       <br>
         <img src='' height="80" width="80" id="id_imagen_enviar_form" name="imagen_enviar_form">
     </div>
+
+    <a href="menu.html">Atrás</a>
   </body>
 </html>

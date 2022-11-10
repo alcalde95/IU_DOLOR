@@ -13,23 +13,22 @@ const mensaje = (idElemento, texto = '') => {
 // funcion para validar el submit del formulario usuario para las acciones que no sean search
 
 function comprobar_form_persona_add() {
-	alert('entro en comprobar_form_persona_add');
-
-	return true
+	alert('entro en comprobar_form_persona');
+	if(comprobar_dni() && comprobar_nombre() && comprobar_apellido() && comprobar_fecha() && comprobar_email() && comprobar_direccion() && comprobar_telefono()){
+		return true
+	}
+	return false
 }
 
-// comprobar_form_usuario_search()
-// funcion para validar el submit del formulario de usuario para la accion search
-function comprobar_form_usuario_search() {
-	alert('entro en comprobar_form_usuario_search');
-
-	if (comprobar_dni_search() && comprobar_usuario_search() && comprobar_id_rol_search()) {
-		return true;
+function comprobar_form_persona_search() {
+	alert('entro en comprobar_form_persona');
+	if(comprobar_dni_search() && comprobar_nombre_search() && comprobar_apellido_search() && comprobar_fecha_search() && comprobar_email_search() && comprobar_direccion_search() && comprobar_telefono_search()){
+		return true
 	}
-	else {
-		return false;
-	}
+	return false
 }
+
+
 
 
 
@@ -37,247 +36,397 @@ function comprobar_form_usuario_search() {
 
 
 function comprobar_dni() {
-	let numero ,letr,letra
+	if (!MaxSize('id_dni', 9)) {
+		mensajeKO('id_dni', 'dni_mayor_ko');
+		return false;
+	}
+
+	if (!MinSize('id_dni', 9)) {
+		mensajeKO('id_dni','dni_menor_ko');
+		return false;
+	}
+
+	let numero, letr, letra
 	var expresion_regular_dni
 	let dni = document.getElementById('id_dni').value;
 
-	expresion_regular_dni = /^\d{8}[a-zA-Z]$/;
-   
-	if(expresion_regular_dni.test (dni) == true){
-	   numero = dni.substr(0,dni.length-1);
-	   letr = dni.substr(dni.length-1,1);
-	   numero = numero % 23;
-	   letra='TRWAGMYFPDXBNJZSQVHLCKET';
-	   letra=letra.substring(numero,numero+1);
-	  if (letra!=letr.toUpperCase()) {
-		 mensajeKO('id_dni','Dni erroneo, la letra del NIF no se corresponde');
-	   }else{
-		 mensajeOK('Dni correcto');
-	   }
-	}else{
-	   mensajeKO('id_dni','Dni erroneo, formato no válido');
-	 }
-  }
+	expresion_regular_dni = /^[0-9]{8}[a-zA-Z]$/;
+
+	if (expresion_regular_dni.test(dni) == true) {
+		numero = dni.substr(0, dni.length - 1);
+		letr = dni.substr(dni.length - 1, 1);
+		numero = numero % 23;
+		letra = 'TRWAGMYFPDXBNJZSQVHLCKET';
+		letra = letra.substring(numero, numero + 1);
+		if (letra != letr.toUpperCase()) {
+			mensajeKO('id_dni','dni_letra_incorrecta');
+		} else {
+			mensajeOK('id_dni');
+			return true;
+		}
+	} else {
+		mensajeKO('id_dni', 'dni_formato_ko');
+		return false;
+	}
+
+	mensajeOK('id_dni');
+	return true;
+}
 
 
 function comprobar_nombre() {
-	if (!size_minimo('id_nombre',3)) {
-		mensajeKO('id_nombre', 'el nombre debe tener al menos 3 caracteres')
+	if (!MinSize('id_nombre', 3)) {
+		mensajeKO('id_nombre', 'nombre_menor_ko');
 		return false;
 	}
-	else {
-		if (id_nombre.length > 45) {
-			mensajeKO('id_nombre', 'el nombre debe tener como máximo 30 caracteres')
+
+	if (!MaxSize('id_nombre', 45)) {
+		mensajeKO('id_nombre','nombre_mayor_ko');
+		return false;
+	}
+	if (!Sololetras('id_nombre')) {
+		mensajeKO('id_nombre', 'nombre_formato_ko');
+		return false;
+	}
+
+
+	mensajeOK('id_nombre');
+	return true;
+
+
+}
+
+function comprobar_apellido() {
+	if (!MinSize('id_apellido', 5)) {
+		mensajeKO('id_apellido','apellido_menor_ko')
+		return false;
+	}
+
+	if (!MaxSize('id_apellido', 100)) {
+		mensajeKO('id_apellido','apellido_mayor_ko')
+		return false;
+	}
+	if (!Sololetras('id_apellido')) {
+		mensajeKO('id_apellido','apellido_formato_ko');
+		return false;
+	}
+	mensajeOK('id_apellido')
+	return true;
+
+
+}
+
+
+function comprobar_fecha() {
+
+	if (!MinSize('id_fecha_nacimiento', 5)) {
+		mensajeKO('id_fecha_nacimiento', 'fecha_menor_ko')
+		return false;
+	}
+
+	if (!MaxSize('id_fecha_nacimiento', 100)) {
+		mensajeKO('id_fecha_nacimiento',)
+		return false;
+	}
+	let fecha = document.getElementById('id_fecha_nacimiento').value;
+	let expresion = /^[0-9]{4}[/-]{1}[0-9]{2}[/-]{1}[0-9]{2}/;
+	if (!expresion.test(fecha)) {
+		mensajeKO('id_fecha_nacimiento', 'fecha_formato_ko');
+		return false;
+	}
+	mensajeOK('id_fecha_nacimiento');
+	return true;
+}
+
+function comprobar_email() {
+
+	if (!MinSize('id_email', 8)) {
+		mensajeKO('id_email', 'email_menor_ko')
+		return false;
+	}
+
+	if (!MaxSize('id_email', 45)) {
+		mensajeKO('id_email', 'email_mayor_ko')
+		return false;
+	}
+
+	let expr = /^[a-z0-9\-\_\.\']+[a-z0-9\-\_\']\@[a-z0-9\-\_\'][a-z0-9\-\_\.\']*.[a-z0-9\-\_\.\']+$/;
+	let val = document.getElementById('id_email').value;
+	if (!expr.test(val)) {
+		mensajeKO('id_email','email_formato_ko');
+		return false;
+
+	}
+	mensajeOK('id_email');
+	return true;
+
+
+}
+
+function comprobar_direccion() {
+
+	if (!MinSize('id_direccion', 8)) {
+		mensajeKO('id_direccion', 'direccion_menor_ko')
+		return false;
+	}
+
+	if (!MaxSize('id_direccion', 45)) {
+		mensajeKO('id_direccion', 'direccion_mayor_ko')
+	}
+//acordarse de poner la comprobación pertinente aquí
+	mensajeOK('id_direccion');
+	return true;
+
+}
+
+function comprobar_telefono() {
+
+	if (!MinSize('id_telefono', 9)) {
+		mensajeKO('id_telefono', 'tlf_menor_ko')
+		return false;
+	}
+
+	if (!MaxSize('id_telefono', 9)) {
+		mensajeKO('id_telefono','tlf_mayor_ko')
+		return false;
+	}
+
+
+	let val = document.getElementById('id_telefono').value;
+	let expr1 = /([0-9]){9}/g;
+	if (!expr1.test(val)) {
+		mensajeKO('id_telefono','tlf_formato_ko');
+		return false;
+	}
+
+	let expr2 = /[6-9][0-9]{8}/;
+
+	if (!expr2.test(val)) {
+		mensajeKO('id_telefono','tlf_formato_esp_ko');
+		return false;
+	}
+
+	mensajeOK('id_telefono');
+	return true;
+
+}
+
+
+
+function comprobar_foto() {
+	let fot=document.getElementById('id_foto');
+	if(fot!=""){
+		if (!MinSize('id_foto', 6)) {
+			mensajeKO('id_foto', 'foto_menor_ko')
 			return false;
 		}
-		else {
-			mensajeOK('id_nombre');
-			return true;
+	
+		if (!MaxSize('id_foto', 40)) {
+			mensajeKO('id_foto', 'foto_mayor_ko')
+			return false;
 		}
-	}
-
-}
-const comprobar_apellido = (id_apellido = document.getElementById('id_apellido').value) => {
-	if (id_apellido.length < 3) {
-		mensaje('id_apellido', 'el apellido debe tener al menos 3 caracteres')
-		return false;
-	}
-	if (id_apellido.length > 45) {
-		mensaje('id_apellido', 'el apellido debe tener como máximo 60 caracteres')
-		return false;
-	}
-	else {
-		mensaje('id_apellido');
+		if (!SololetrasYpunto('id_foto')) {//acordarme revisar esto
+			mensajeKO('id_foto','foto_formato_ko')
+			return false;
+		}
+		if (!extensionOK('id_foto')) {
+			mensajeKO('id_foto','foto_extension_ko')
+			return false;
+		}
+		mensajeOK('id_foto');
 		return true;
 	}
-
-}
-
-const comprobar_fecha = (id_fecha_nacimiento = document.getElementById('id_fecha_nacimiento').value) => {
-	if (!document.getElementById('id_fecha_nacimiento').value instanceof Date) {
-		mensaje('id_fecha_nacimiento', 'la fecha introducida no existe');
-		return false;
-	}
-	else {
-		mensaje('id_fecha_nacimiento');
+	mensajeOK('id_foto');
 		return true;
-	}
-}
-
-const comprobar_email = (id_email = document.getElementById('id_email').value) => {
-
-	if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/.test(id_email)) {
-		mensaje('id_email');
-		return true;
-	} else {
-		mensaje('id_email', 'La dirección de email es incorrecta.');
-		return false;
-	}
-
-}
-
-const comprobar_direccion = (direccion_persona = document.getElementById('id_direccion').value) => {
-	if (direccion_persona.length < 3) {
-		mensaje('direccion_persona', 'la direccion debe tener al menos 3 caracteres');
-		return false;
-	}
-	if (direccion_persona.length > 90) {
-		mensaje('direccion_persona', 'la direccion debe tener como máximo 90 caracteres');
-		return false;
-	}
-	else {
-		mensaje('direccion_persona');
-		return true;
-	}
-
-}
-
-function comprobar_telefono(){
-	telefono = document.getElementById('id_telefono').value;
-	if (telefono.length < 9 || telefono.length > 9) {
-		mensaje('telefono', 'el teléfono debe estar formado por 9 dígitos');
-		return false;
-	}
-	let expresion_regular_tlf = /([0-9]){9}/g;
-	if (!expresion_regular_tlf.test(telefono)) {
-		mensaje('telefono', 'la direccion debe tener como máximo 90 caracteres');
-		return false;
-	}
-	else {
-		mensaje('telefono');
-		return true;
-	}
 
 }
 
 
 
-const comprobar_foto = (id_foto = document.getElementById('id_foto').value) => {
-
-	if (id_foto.length < 5 || id_foto.length > 90) {
-		mensaje('id_foto', 'tamaño incorrecto');
-		return false;
-	}
-
-	else {
-		mensaje('id_foto');
-		return true;
-	}
-
-}
-const comprobar_descripcion = (descripcion = document.getElementById('id_descripcion').value) => {
-	if (descripcion.length < 1 || descripcion.length > 1000) {
-		mensaje('descripcion', 'no puede estar vacío o tener más de 1000 caracteres la descripcion')
-	} else {
-		mensaje('descripcion');
-		return true;
-	}
-}
-
-
-// comprobar_dni_search()
-// funcion de validación de formato de dni en search
 function comprobar_dni_search() {
-	return true;
-}
 
-// comprobar_id_rol()
-// funcion de validacion del formato de id_rol en acciones que no son search
-function comprobar_id_rol() {
-	return true;
-}
-
-// comprobar_id_rol_search()
-// funcion de validacion del formato de id_rol
-function comprobar_id_rol_search() {
-	return true;
-}
-
-
-// crearselect(
-// id que va tener el select, 
-// name que va tener el select, 
-// atributo del array datos que utilizamos para el value de cada option, 
-// atributo del array datos que vamos utilizar para el text de cada option, 
-// array de datos con las filas de la entidad, 
-// value que queremos que este como selected en el select)
-// devuelve un elemento select
-function crearselect(id, name, valueoption, textoption, datos, itemseleccionado) {
-	rol_select = document.createElement("select");
-	rol_select.name = name;
-	rol_select.id = id;
-	//alert(datos[0][valueoption]);
-
-	for (let i = 0; i < datos.length; i++) {
-		option_rol = document.createElement("option");
-		option_rol.value = datos[i][valueoption];
-		option_rol.text = datos[i][textoption];
-
-		if (option_rol.value == itemseleccionado) {
-			option_rol.selected = true;
-		}
-		rol_select.appendChild(option_rol);
+	if (!MaxSize('id_dni', 9)) {
+		mensajeKO('id_dni', 'dni_mayor_ko');
+		return false;
 	}
 
-	return rol_select;
+	var expresion_regular_dni
+	let dni = document.getElementById('id_dni').value;
+
+	expresion_regular_dni = /^[0-9]{0,8}[a-zA-Z]{0,1}$/;
+
+	if (!expresion_regular_dni.test(dni) == true) {
+		mensajeKO('id_dni', 'dni_formato_ko');
+		return false;
+	}
+	
+	mensajeOK('id_dni');
+	return true;
+}
+
+
+function comprobar_nombre_search() {
+
+
+	if (!MaxSize('id_nombre', 45)) {
+		mensajeKO('id_nombre', 'nombre_mayor_ko');
+		return false;
+	}
+	if (!Sololetras('id_nombre')) {
+		mensajeKO('id_nombre', 'nombre_formato_ko');
+		return false;
+	}
+
+
+	mensajeOK('id_nombre');
+	return true;
+
 
 }
 
-// peticionADDusuarioBack()
-// funcion que utilizariamos para hacer una solicitud a back para añadir un usuario
-function peticionADDusuarioBack() {
+function comprobar_apellido_search() {
 
+
+	if (!MaxSize('id_apellido', 100)) {
+		mensajeKO('id_apellido', 'apellido_mayor_ko')
+		return false;
+	}
+	if (!Sololetras('id_apellido')) {
+		mensajeKO('id_apellido', 'apellido_formato_ko');
+		return false;
+	}
+	
+	mensajeOK('id_apellido');
+	return true;
+
+
+}
+
+
+function comprobar_fecha_search() {
+
+
+	if (!MaxSize('id_fecha_nacimiento', 100)) {
+		mensajeKO('id_fecha_nacimiento', 'fecha_mayor_ko')
+		return false;
+	}
+	mensajeOK('id_fecha_nacimiento');
+	return true;
+}
+
+function comprobar_email_search() {
+
+
+	if (!MaxSize('id_email', 45)) {
+		mensajeKO('id_email', 'email_mayor_ko')
+		return false;
+	}
+
+	
+	mensajeOK('id_email');
+	return true;
+
+
+}
+
+function comprobar_direccion_search() {
+
+	if (!MaxSize('id_direccion', 45)) {
+		mensajeKO('id_direccion', 'direccion_mayor_ko')
+	}
+
+	mensajeOK('id_direccion');
+	return true;
+
+}
+
+function comprobar_telefono_search() {
+
+
+	if (!MaxSize('id_telefono', 9)) {
+		mensajeKO('id_telefono', 'tlf_mayor_ko')
+		return false;
+	}
+
+
+	let val = document.getElementById('id_telefono').value;
+	let expr1 = /([0-9]){0,9}/g;
+	if (!expr1.test(val)) {
+		mensajeKO('id_telefono', 'tlf_formato_ko');
+		return false;
+	}
+
+	
+
+	mensajeOK('id_telefono');
+	return true;
+
+}
+
+
+
+function comprobar_foto_search() {
+
+	
+
+	if (!MaxSize('id_foto', 40)) {
+		mensajeKO('id_foto', 'foto_mayor_ko')
+		return false;
+	}
+	if (!SololetrasYpunto('id_foto')) {//acordarme revisar esto
+		mensajeKO('id_foto', 'foto_formato_ko')
+		return false;
+	}
+	
+	mensajeOK('id_foto');
+	return true;
+
+}
+
+
+
+
+function peticionADDpersonaBack() {
+	
 	alert('peticion a back add');
 	ADDpersonaajax();
 
 }
-
-// peticionEDITusuarioBack()
-// funcion que utilizariamos para hacer una solicitud a back para editar un usuario
-function peticionEDITusuarioBack() {
+function peticionEDITpersonaBack() {
 
 	alert('peticion a back edit');
 	EDITpersonaajax();
 
 }
-
-// peticionDELETEusuarioBack()
-// funcion que utilizariamos para hacer una solicitud a back para borrar un usuario
-function peticionDELETEusuarioBack() {
+function peticionDELETEpersonaBack() {
 
 	alert('peticion a back delete');
 	DELETEpersonaajax();
 
 }
 
+function peticionSEARCHpersonaBack() {
+
+	alert('peticion a back search');
+	SEARCHpersonaajax();
+
+}
 
 
 
-
-// devolverroles()
-// funcion creada para devolver un array como el que recogeriamos de back al solicitar el contenido de la entidad rol
-
-
-// add_usuario()
-// funcion a ser ejecutada cuando se completa el formulario al pulsar sobre la imagen
-// llama a la funcion de petición pq no es necesario comprobación de formularios.
-// en esta funcion de petición se provoca el submit para que se ejecute la accion
 function add_persona() {
 
 	if (comprobar_form_persona_add()) {
-		peticionADDusuarioBack();
+		peticionADDpersonaBack();
 	}
 
 }
 
-// edit_usuario()
-// funcion a ser ejecutada cuando se completa el formulario al pulsar sobre la imagen
-// llama a la funcion de petición pq no es necesario comprobación de formularios.
-// en esta funcion de petición se provoca el submit para que se ejecute la accion
-function edit_usuario() {
 
-	if (comprobar_form_persona_add()) {
-		peticionEDITusuarioBack();
+function edit_persona() {
+
+	if (comprobar_form_persona()) {
+		peticionEDITpersonaBack();
 	}
 
 }
@@ -286,9 +435,9 @@ function edit_usuario() {
 // funcion a ser ejecutada cuando se completa el formulario al pulsar sobre la imagen
 // llama a la funcion de petición pq no es necesario comprobación de formularios.
 // en esta funcion de petición se provoca el submit para que se ejecute la accion
-function delete_usuario() {
+function delete_persona() {
 
-	peticionDELETEusuarioBack();
+	peticionDELETEpersonaBack();
 
 }
 
@@ -296,11 +445,10 @@ function delete_usuario() {
 // funcion a ser ejecutada cuando se completa el formulario
 // comprueba los formatos de atributo del formulario y devuelve true para que se invoque el action
 function search_persona() {
-
-	//	if (comprobar_form_usuario_search()){
-	//		return true;
-	//	}
-	return true;
+	if(comprobar_form_persona_search()){
+		peticionSEARCHpersonaBack();
+	}
+	
 }
 
 // resetearformusuario()
@@ -396,6 +544,8 @@ async function ADDpersonaajax() {
 	setLang();
 	document.getElementById('id_form_persona').remove();
 	document.getElementById('id_imagen_enviar_form').remove();
+	
+	window.location.reload();	
 }
 
 
@@ -404,42 +554,39 @@ function crearformADDpersona() {
 	// resetear el formulario
 	resetearformpersona();
 
-	// se rellena el action del formulario
-	document.getElementById('id_form_persona').action = 'http://193.147.87.202/procesaform.php';
-	
-	//document.getElementById('id_dni').onblur = comprobar_dni;
+	document.getElementById('id_dni').onblur = comprobar_dni;
 	document.getElementById('id_dni').value = '';
-	
-	//document.getElementById('id_nombre').onblur = comprobar_nombre;
+
+	document.getElementById('id_nombre').onblur = comprobar_nombre;
 	document.getElementById('id_nombre').value = '';
-	
-	//document.getElementById('id_apellido').onblur = comprobar_apellido;
+
+	document.getElementById('id_apellido').onblur = comprobar_apellido;
 	document.getElementById('id_apellido').value = '';
-	
-	//document.getElementById('id_fecha_nacimiento').onblur = comprobar_fecha;
+
+	document.getElementById('id_fecha_nacimiento').onblur = comprobar_fecha;
 	document.getElementById('id_fecha_nacimiento').value = '';
 
-	//document.getElementById('id_direccion').onblur = comprobar_direccion;
+	document.getElementById('id_direccion').onblur = comprobar_direccion;
 	document.getElementById('id_direccion').value = '';
 
-	//document.getElementById('id_telefono').onblur = comprobar_telefono;
+	document.getElementById('id_telefono').onblur = comprobar_telefono;
 	document.getElementById('id_telefono').value = '';
 
-	//document.getElementById('id_email').onblur = comprobar_email;
+	document.getElementById('id_email').onblur = comprobar_email;
 	document.getElementById('id_email').value = '';
-	
-	//document.getElementById('id_foto').onblur = comprobar_foto;
+
+	document.getElementById('id_foto').onblur = comprobar_foto;
 	document.getElementById('id_foto').value = '';
-	
+
 
 
 	// se coloca una imagen para la accion de añadir
 	imagenenviarform = document.createElement("img");
-	imagenenviarform.src="./images/add4.png";
+	imagenenviarform.src = "./images/add4.png";
 	imagenenviarform.id = "id_imagen_enviar_form";
 	imagenenviarform.width = '80';
 	imagenenviarform.height = '80';
-	imagenenviarform.className='titulo_add';
+	imagenenviarform.className = 'titulo_add';
 	document.body.appendChild(imagenenviarform);
 	// se coloca una función onclick que hará las comprobaciones y el submit
 	document.getElementById('id_imagen_enviar_form').onclick = add_persona;
@@ -449,6 +596,7 @@ function crearformADDpersona() {
 
 	// se muestra el formulario
 	document.getElementById('id_caja_formulario_persona').style.display = 'block';
+
 
 }
 
@@ -503,7 +651,9 @@ async function EDITpersonaajax() {
 	setLang();
 	document.getElementById('id_form_persona').remove();
 	document.getElementById('id_imagen_enviar_form').remove();
+	window.location.reload();
 }
+
 
 
 function crearformEDITpersona(dni, nombre, apellido, fecha_nacimiento, direccion, telefono, email, foto,) {
@@ -543,7 +693,7 @@ function crearformEDITpersona(dni, nombre, apellido, fecha_nacimiento, direccion
 	imagenenviarform.height = '80';
 	document.body.appendChild(imagenenviarform);
 	// se coloca una función onclick que hará las comprobaciones y el submit
-	$("#id_imagen_enviar_form").on('click', edit_usuario);
+	$("#id_imagen_enviar_form").on('click', edit_persona);
 
 	// se muestra el formulario
 	$("#id_caja_formulario_persona").attr('style', 'display: block');
@@ -588,7 +738,7 @@ async function DELETEpersonaajax() {
 		.then((res) => {
 
 			if (res.code = 'SQL_OK') {
-				res.code = 'edit_persona_OK';
+				res.code = 'delete_persona_OK';
 			}
 			mensajeOK(res.code);
 		})
@@ -599,6 +749,7 @@ async function DELETEpersonaajax() {
 	setLang();
 	document.getElementById('id_form_persona').remove();
 	document.getElementById('id_imagen_enviar_form').remove();
+	window.location.reload();
 }
 
 function crearformDELETEpersona(dni, nombre, apellido, fecha_nacimiento, direccion, telefono, email, foto) {
@@ -629,16 +780,66 @@ function crearformDELETEpersona(dni, nombre, apellido, fecha_nacimiento, direcci
 	imagenenviarform.height = '80';
 	document.body.appendChild(imagenenviarform);
 	// se coloca una función onclick que hará las comprobaciones y el submit
-	$("#id_imagen_enviar_form").on('click', delete_usuario);
+	$("#id_imagen_enviar_form").on('click', delete_persona);
 
 	$("#id_caja_formulario_persona").attr('style', 'display: block');
 }
 
-// crearformSEARCHusuario() creado con jquery (except el option que utiliza javascript)
-// Este formulario se crea usando la estructura básica del formulario html en gestionusuario.html
-// Se crea un input image para actuar como un input submit y que el formulario haga el submit al pulsarlo
-// Cuando esto pasa se llama a la funcion search_usuario en el onsubmit y se hace la comprobación de atributos
-// cuando esta función devuelve true se ejecuta el action
+function personaSEARCHAjaxPromesa(){
+
+	crearformoculto('form_generico','');
+	insertacampo('form_generico','controlador', 'persona');
+	insertacampo('form_generico','action', 'SEARCH');
+	insertacampo('form_generico','dni', document.getElementById('id_dni').value);
+	insertacampo('form_generico','nombre_persona', document.getElementById('id_nombre').value);
+	insertacampo('form_generico','apellidos_persona', document.getElementById('id_apellido').value);
+	insertacampo('form_generico','fechaNacimiento_persona', document.getElementById('id_fecha_nacimiento').value);
+	insertacampo('form_generico','direccion_persona', document.getElementById('id_direccion').value);
+	insertacampo('form_generico','telefono_persona', document.getElementById('id_telefono').value);
+	insertacampo('form_generico','email_persona', document.getElementById('id_email').value);
+	return new Promise(function(resolve, reject) {
+		$.ajax({
+			method: "POST",
+			url: "http://193.147.87.202/Back/index.php",
+			data: $("#form_generico").serialize(),
+		}).done(res => {
+			if (res.ok != true) {
+				alert('res.ok != true');
+				reject(res);
+			}
+			else{
+				alert('res.ok == true');
+				resolve(res);
+			}
+		})
+		.fail( function( jqXHR ) {
+			alert('fail!!!:' + jqXHR.status);
+			mensajeHTTPFAIL(jqXHR.status);
+		});
+	}
+	)
+}
+
+
+async function SEARCHpersonaajax() {
+	
+	var idioma = getCookie('lang');
+	
+	await personaSEARCHAjaxPromesa()
+		.then((res) => {
+			
+			if (res.code = 'SQL_OK'){
+				res.code = 'search_persona_OK';	}
+			getListPersonas(res.resource);
+			//mensajeOK(res.code);
+		})
+		.catch((res) => {
+			alert('.catch');
+			mensajeFAIL(res.code);
+		});
+		setLang();
+		document.getElementById('form_generico').remove();
+}
 
 function crearformSEARCHpersona() {
 
@@ -646,40 +847,64 @@ function crearformSEARCHpersona() {
 	resetearformpersona();
 
 	// creo la accion para el formulario y el onsubmit
-	$("#id_form_persona").attr('action', 'http://193.147.87.202/procesaform.php');
+	//$("#id_form_persona").attr('action','http://193.147.87.202/procesaform.php');
 	$("#id_form_persona").on('submit', search_persona);
 
 	// pongo el campo de dni editable y le asocio la funcion para el onblur
 	$("#id_dni").attr('readonly', false);
 	$("#id_dni").blur(comprobar_dni_search);
+	$("#id_dni").val('');
 
-	// pongo el campo de usuario editable y le asocio la funcion para el onblur
-	$("#id_usuario").attr('readonly', false)
+	// pongo el campo de nombre_persona editable y le asocio la funcion para el onblur
+	$("#id_nombre").attr('readonly', false)
+	$("#id_nombre").blur(comprobar_nombre_search);
+	$("#id_nombre").val('');
 
+	// pongo el campo de apellidos_persona editable y le asocio la funcion para el onblur
+	$("#id_apellido").attr('readonly', false)
+	$("#id_apellido").blur(comprobar_apellido_search);
+	$("#id_apellido").val('');
 
-	// al ser search se necesita el valor vacio. Se crea el option vacio y se incluye colocandolo como seleccionado
-	optionrolvacio = document.createElement("option");
-	optionrolvacio.value = ' ';
-	optionrolvacio.text = ' ';
-	optionrolvacio.selected = true;
+	// pongo el campo de fechaNacimiento_persona editable y le asocio la funcion para el onblur
+	$("#id_fecha_nacimiento").attr('readonly', false)
+	$("#id_fecha_nacimiento").blur(comprobar_fecha_search);
+	$("#id_fecha_nacimiento").val('');
 
+	// pongo el campo de direccion_persona editable y le asocio la funcion para el onblur
+	$("#id_direccion").attr('readonly', false)
+	$("#id_direccion").blur(comprobar_direccion_search);
+	$("#id_direccion").val('');
 
+	// pongo el campo de telefono_persona editable y le asocio la funcion para el onblur
+	$("#id_telefono").attr('readonly', false)
+	$("#id_telefono").blur(comprobar_telefono_search);
+	$("#id_telefono").val('');
 
-	//eliminamos la imagen que utilizamos en las otras acciones para poder hacer un submit con el formulario
-	$("#id_imagen_enviar_form").remove();
+	// pongo el campo de email_persona editable y le asocio la funcion para el onblur
+	$("#id_email").attr('readonly', false)
+	$("#id_email").blur(comprobar_email_search);
+	$("#id_email").val('');
+
+	// pongo el campo de foto_persona editable y le asocio la funcion para el onblur
+	$("#id_foto").attr('readonly', false)
+	$("#id_foto").blur(comprobar_foto_search);
+	$("#id_foto").val('');
 
 	//creo un input de tipo image que el formulario va utilizar como si fuese un tipo input submit
-	botonsubmit = document.createElement("input");
-	botonsubmit.type = 'image';
-	botonsubmit.id = "id_boton_buscar_usuario";
-	botonsubmit.title = "Buscar";
-	botonsubmit.alt = "Buscar";
+	botonsubmit = document.createElement("img");
+	//botonsubmit.type = 'image';
+	botonsubmit.id = "id_boton_buscar_persona";
+	botonsubmit.className = 'titulo_search';
 	botonsubmit.src = "./images/search4.png";
 	botonsubmit.width = '80';
 	botonsubmit.height = '80';
+	document.body.appendChild(botonsubmit);
 
 	// coloco la imagen para submit en el formulario
-	$("#id_form_ ").append(botonsubmit);
+	$("#id_boton_buscar_persona").on('click', search_persona);
+	//$("#id_form_persona").append(botonsubmit);
+
+	setLang();
 
 	// se pone visible el formulario
 	$("#id_caja_formulario_persona").attr('style', 'display: block');
@@ -687,13 +912,41 @@ function crearformSEARCHpersona() {
 
 
 
+
 function crearformSHOWCURRENTpersona(dni, nombre, apellido, fecha_nacimiento, email, foto, direccion, telefono, es_jubilado, descripcion) {
 
-	let data = ` DNI: ${dni} \n nombre: ${nombre} \n apellido: ${apellido} \n fecha_nacimiento: ${fecha_nacimiento} \n email: ${email} \n foto: ${foto} \n direccion: ${direccion} \n telefono: ${telefono} \n es_jubilado: ${es_jubilado} \n descripcion: ${descripcion}`
-	alert(data)
+	resetearformpersona();
 
-	// reseteo el formulario
-	resetearformusuario();
+	$("#id_form_persona").attr('action', 'http://193.147.87.202/procesaform.php');
+
+	$("#id_dni").attr('readonly', 'true')
+	$("#id_dni").val(dni);
+
+	$("#id_nombre").attr('readonly', 'true')
+	$("#id_nombre").val(nombre);
+	$("#id_apellido").attr('readonly', 'true')
+	$("#id_apellido").val(apellido);
+	$("#id_fecha_nacimiento").attr('readonly', 'true')
+	$("#id_fecha_nacimiento").val(fecha_nacimiento);
+	$("#id_email").attr('readonly', 'true')
+	$("#id_email").val(email);
+	$("#id_foto").attr('readonly', 'true')
+	$("#id_foto").val(foto);
+	$("#id_direccion").attr('readonly', 'true')
+	$("#id_direccion").val(direccion);
+	$("#id_telefono").attr('readonly', 'true')
+	$("#id_telefono").val(telefono);
+
+
+	// se coloca una imagen para la accion de editar
+	imagenenviarform = document.createElement("img");
+	imagenenviarform.src = "./images/detail4.png";	
+	imagenenviarform.id = "id_imagen_enviar_form";
+	imagenenviarform.width = '80';
+	imagenenviarform.height = '80';
+	document.body.appendChild(imagenenviarform);
+
+	$("#id_caja_formulario_persona").attr('style', 'display: block');
 
 
 }
@@ -747,7 +1000,7 @@ async function devolverpersonasajax() {
 
 function getListPersonas(listapersonas) {
 
-	$("#id_datospersonas").html = '';
+	document.getElementById('id_datospersonas').innerHTML = '';
 
 	for (let persona of listapersonas) {
 

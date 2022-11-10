@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Gestión Usuario</title>
     <script type="text/javascript" src="./js/usuario.js"></script>
+    <script type="text/javascript" src="./js/rol.js"></script>
     <script type="text/javascript" src="./locale/idioma.js"></script>
     <script type="text/javascript" src="./locale/Lang_ES.js"></script>
     <script type="text/javascript" src="./locale/Lang_EN.js"></script>
@@ -12,12 +13,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="./js/md5.js"></script>
   </head>
-  <body onload="ponerinvisibleerror();ponerinvisibleformusuario();devolverusuariosajax();setLang();">
-
+  <body onload="incluircabecera(),ponerinvisibleerror();ponerinvisibleformusuario();devolverusuariosajax();setLang(),esta_autenticado();">
+    
     <h1 class="pagina_usuario_wellcome"></h1>
-    <p onclick="setLang('ES');">ES</p>
-    <p onclick="setLang('EN');">EN</p>
-    <p onclick="setLang('GA');">GA</p>
+    <div id='id_caja_superior'></div>
     <div id='id_caja_error'>
       <div id='id_texterror'></div><img src="./images/cerrar3.jpg" width="50" height="50" onclick="cerrarMensajeKO();"/>
     </div>
@@ -46,17 +45,19 @@
     <div id='id_caja_formulario_usuario'>
       <form id='id_form_usuario' name='form_usuario' method='post'>
 
-        <label for='id_dni'></label>
-        <input class="text_formato_dni" type='text' id='id_dni' name='id_dni' placeholder=""></input>
+        <label class='dni'></label>
+        <input class="text_formato_dni" type='text' id='id_dni' name='dni' placeholder=""></input>
         <br>
         <label class="usuario"></label>
-        <input class="text_formato_usuario" type='text' id='id_usuario' name='id_usuario'></input>
+        <input class="text_formato_usuario" type='text' id='id_usuario' name='usuario'></input>
         <br>
-        <div id="caja_select_rol"><label class="id_rol"></label></div>
+        <div id="caja_select_rol"><label class="id_rol" name="'id_rol"></label></div>
         
       </form>
       <br>
         <img src='' height="80" width="80" id="id_imagen_enviar_form" name="imagen_enviar_form">
     </div>
+
+    <a href="menu.html">Atrás</a>
   </body>
 </html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>REGISTRO</title>
+    <script type="text/javascript" src="./js/Login.js"></script>
+    <script type="text/javascript" src="./js/persona.js"></script>
+    <script type="text/javascript" src="./js/usuario.js"></script>
+    <script type="text/javascript" src="./locale/idioma.js"></script>
+    <script type="text/javascript" src="./locale/Lang_ES.js"></script>
+    <script type="text/javascript" src="./locale/Lang_EN.js"></script>
+    <script type="text/javascript" src="./locale/Lang_GA.js"></script>
+    <script type="text/javascript" src="./js/validacionesComunes.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="./js/md5.js"></script>
+</head>
+
+<body onload="ponerinvisibleerror();setLang();">
+    <div id='id_caja_superior'></div>
+    <h1 class="pagina_Login_wellcome"></h1>
+    <div id='id_caja_error'>
+        <div id='id_texterror'></div><img src="./images/cerrar3.jpg" width="50" height="50"
+            onclick="cerrarMensajeKO();" />
+    </div>
+
+
+    <div id='id_caja_formulario_registro'>
+        <form id='id_form_registro' name='id_form_registro' method='post' action="javascript:registro()">
+
+            <label class='dni'></label>
+            <input class="text_formato_dni" type='text' id='id_dni' name='dni' placeholder="" onblur="comprobar_dni();"></input>
+            <br>
+            <label class="usuario"></label>
+            <input class="text_formato_usuario" type='text' id='id_usuario' name='usuario' onblur="comprobar_usuario();"></input>
+            <br>
+            <label class='contrasena'></label>
+            <input class="text_formato_contrasena" type='text' id='id_contrasena' name='contrasena' onblur="comprobar_contrasena();"></input>
+            <br>
+            <label class="nombre"></label>
+            <input class="text_formato_nombre_persona" type='text' id='id_nombre' name='nombre_persona' onblur="comprobar_nombre();"></input>
+            <br>
+            <label class="apellido"></label>
+            <input class="text_formato_apellidos_persona" type='text' id='id_apellido' name='apellidos_persona' onblur="comprobar_apellido();"></input>
+            <br>
+            <label class="fecha_nacimiento"></label>
+            <input class="text_formato_fechaNacimiento_persona" type='date' id='id_fecha_nacimiento' name='fechaNacimiento_persona' onblur="comprobar_fecha();"></input>
+            <br>
+            <label class="direccion"></label>
+            <input class="text_formato_direccion_persona" type='text' id='id_direccion'name='direccion_persona' onblur="comprobar_direccion();"></input>
+            <br>
+            <label class="telefono"></label>
+            <input class="text_formato_telefono_persona" type='text' id='id_telefono' name='telefono_persona' onblur="comprobar_telefono();"></input>
+            <br>
+            <label class="email"></label>
+            <input class="text_formato_email_persona" type='text' id='id_email' name='email_persona' onblur="comprobar_email();"></input>
+            <br>
+            <label class="foto"></label>
+            <input class="text_formato_foto_persona" type='text' id='id_foto' name='foto_persona'onblur="comprobar_foto();"></input>
+            <br>
+            <input type="submit" value="enviar"></input>
+        </form>
+        <br>
+    </div>
+</body>
+
+</html>

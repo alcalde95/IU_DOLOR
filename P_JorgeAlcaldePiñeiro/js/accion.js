@@ -1,104 +1,210 @@
-// crearselect(
-// id que va tener el select, 
-// name que va tener el select, 
-// atributo del array datos que utilizamos para el value de cada option, 
-// atributo del array datos que vamos utilizar para el text de cada option, 
-// array de datos con las filas de la entidad, 
-// value que queremos que este como selected en el select)
-// devuelve un elemento select
-function crearselect(id, name, valueoption, textoption, datos, itemseleccionado){
-	rol_select = document.createElement("select");
-	rol_select.name = name;
-	rol_select.id = id;
-	//alert(datos[0][valueoption]);
 
-	for (let i=0;i<datos.length;i++){
-		option_rol = document.createElement("option");
-		option_rol.value = datos[i][valueoption];
-		option_rol.text = datos[i][textoption];
 
-		if (option_rol.value == itemseleccionado){
-			option_rol.selected = true;
-		}
-		rol_select.appendChild(option_rol);
+function comprobar_form_accion() {
+	alert('entro en comprobar_form_accion');
+
+	if (comprobar_id_accion() && comprobar_nombre_accion() && comprobar_descrip_accion()) {
+		return true;
 	}
+	else {
+		return false;
+	}
+}
+
+function comprobar_form_accion_search() {
+	alert('entro en comprobar_form_accion');
+
+	if (comprobar_id_accion_search() && comprobar_nombre_accion_search() && comprobar_descrip_accion_search()) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+
+
+function comprobar_id_accion() {
+
+	if (!MinSize('id_accion', 1)) {
+		mensajeKO('id_accion', 'id_accion_menor_ko')
+		return false;
+	}
+
+	if (!MaxSize('id_accion', 4)) {
+		mensajeKO('id_accion', 'id_accion_mayor_ko')
+		return false;
+	}
+
+
 	
-	return rol_select;
+	if (!SoloNumeros('id_accion')) {
+
+		mensajeKO('id_accion','id_accion_formato_ko');
+
+	}
+
+
+	mensajeOK('id_accion');
+	return true;
 
 }
 
+function comprobar_id_accion_search() {
+
+	if (!MaxSize('id_accion', 4)) {
+		mensajeKO('id_accion', 'id_accion_mayor_ko')
+		return false;
+	}
+
+
+	
+	if (!SoloNumeros('id_accion')) {
+
+		mensajeKO('id_accion', 'id_accion_formato_ko');
+
+	}
+
+
+	mensajeOK('id_accion');
+	return true;
+
+}
+
+
+
+function comprobar_nombre_accion() {
+	if (!MinSize('nombre_accion', 6)) {
+		mensajeKO('nombre_accion','nombre_universal_menor_ko');
+		return false;
+	}
+
+	if (!MaxSize('nombre_accion', 48)) {
+		mensajeKO('nombre_accion', 'nombre_universal_mayor_ko');
+		return false;
+	}
+	if (Sololetras('nombre_accion')) {
+		mensajeKO('nombre_accion', 'nombre_universal_formato_ko');
+		return false;
+	}
+
+
+	mensajeOK('nombre_accion');
+	return true;
+
+
+}
+
+function comprobar_nombre_accion_search() {
+	
+	if (!MaxSize('nombre_accion', 48)) {
+		mensajeKO('nombre_accion', 'nombre_universal_mayor_ko');
+		return false;
+	}
+	if (Sololetras('nombre_accion')) {
+		mensajeKO('nombre_accion', 'nombre_universal_formato_ko');
+		return false;
+	}
+
+
+	mensajeOK('nombre_accion');
+	return true;
+
+
+}
+
+function comprobar_descrip_accion() {
+	if (!MinSize('descrip_accion', 20)) {
+		mensajeKO('descrip_accion','descrip_universal_menor_ko');
+		return false;
+	}
+
+	if (!MaxSize('descrip_accion', 200)) {
+		mensajeKO('descrip_accion', 'descrip_universal_mayor_ko');
+		return false;
+	}
+
+	/*	if (caracteresRestringidos('descrip_accion')) { revisar
+			mensajeKO('descrip_accion', 'El nombre sólo puede contener letras');
+			return false;
+		}
+	*/
+
+	mensajeOK('descrip_accion');
+	return true;
+
+
+}
+
+function comprobar_descrip_accion_search() {
+
+	if (!MaxSize('descrip_accion', 200)) {
+		mensajeKO('descrip_accion', 'descrip_universal_mayor_ko');
+		return false;
+	}
+
+	/*	if (caracteresRestringidos('descrip_accion')) { revisar
+			mensajeKO('descrip_accion', 'El nombre sólo puede contener letras');
+			return false;
+		}
+	*/
+
+	mensajeOK('descrip_accion');
+	return true;
+
+
+}
+
+
 // peticionADDusuarioBack()
 // funcion que utilizariamos para hacer una solicitud a back para añadir un usuario
-function peticionADDaccionBack(){
+function peticionADDaccionBack() {
 
 	alert('peticion a back add');
 	ADDaccionajax();
+
+
 }
 
 // peticionEDITusuarioBack()
 // funcion que utilizariamos para hacer una solicitud a back para editar un usuario
-function peticionEDITaccionBack(){
+function peticionEDITaccionBack() {
 
 	alert('peticion a back edit');
 	EDITaccionajax();
-	
+
 }
 
 // peticionDELETEusuarioBack()
 // funcion que utilizariamos para hacer una solicitud a back para borrar un usuario
-function peticionDELETEaccionBack(){
+function peticionDELETEaccionBack() {
 
 	alert('peticion a back delete');
-	EDITaccionajax();
+	DELETEaccionajax();
 }
 
-// devolverroles()
-// funcion creada para devolver un array como el que recogeriamos de back al solicitar el contenido de la entidad rol
+function peticionSEARCHaccionBack() {
 
-function devolverroles(){
-
-	let rol1= new Array();
-	rol1['id_rol']='0';
-	rol1['nombre_rol']='admin';
-	rol1['descrip_rol']='descripcion admin';
-	
-	let rol2= new Array();
-	rol2['id_rol']='1';
-	rol2['nombre_rol']='responsable';
-	rol2['descrip_rol']='descripcion responsable';
-
-	let rol3= new Array();
-	rol3['id_rol']='2';
-	rol3['nombre_rol']='coordinador';
-	rol3['descrip_rol']='descripcion coordinador';
-	
-	datosroles = new Array();
-	datosroles[0] = rol1;
-	datosroles[1] = rol2;
-	datosroles[2] = rol3;
-
-	return datosroles;
+	alert('peticion a back delete');
+	SEARCHaccionajax();
 }
 
-// add_usuario()
-// funcion a ser ejecutada cuando se completa el formulario al pulsar sobre la imagen
-// llama a la funcion de petición pq no es necesario comprobación de formularios.
-// en esta funcion de petición se provoca el submit para que se ejecute la accion
-function add_accion(){
 
-	
+
+function add_accion() {
+
+	if (comprobar_form_accion()) {
 		peticionADDaccionBack();
-	
+	}
+
 
 }
 
-// edit_usuario()
-// funcion a ser ejecutada cuando se completa el formulario al pulsar sobre la imagen
-// llama a la funcion de petición pq no es necesario comprobación de formularios.
-// en esta funcion de petición se provoca el submit para que se ejecute la accion
-function edit_accion(){
 
+function edit_accion() {
+	if (comprobar_form_accion()) {
 		peticionEDITaccionBack();
+	}
 
 }
 
@@ -106,7 +212,7 @@ function edit_accion(){
 // funcion a ser ejecutada cuando se completa el formulario al pulsar sobre la imagen
 // llama a la funcion de petición pq no es necesario comprobación de formularios.
 // en esta funcion de petición se provoca el submit para que se ejecute la accion
-function delete_accion(){
+function delete_accion() {
 
 	peticionDELETEaccionBack();
 
@@ -115,28 +221,40 @@ function delete_accion(){
 // search_usuario()
 // funcion a ser ejecutada cuando se completa el formulario
 // comprueba los formatos de atributo del formulario y devuelve true para que se invoque el action
-function search_usuario(){
+function search_accion() {
 
-	if (comprobar_form_usuario_search()){
-		return true;
+	if(comprobar_form_accion_search()){
+		peticionSEARCHaccionBack()
+	
 	}
+	
+
 }
 
 // resetearformusuario()
 // esta función se usa para inicializar el formulario y siempre este de la misma manera antes de entrar en las funciones que construyen los formularios de acciones
 // aqui solo eliminamos el select. Podriamos tambien hacer un remove() en vez de desasignarlo
-function resetearformaccion(){
+function resetearformaccion() {
 
 	// quitar el readonly de los atributos
-	$("#id_accion").attr('readonly',false);
-	$("#nombre_accion").attr('readonly',false);
-	$("#descrip_accion").attr('readonly',false);
+	$("#id_accion").attr('readonly', false);
+	$("#id_accion").val('');
+	$("#id_accion").on('blur', false);
+	$("#nombre_accion").attr('readonly', false);
+	$("#nombre_accion").val('');
+	$("#nombre_accion").on('blur', false);
+	$("#descrip_accion").attr('readonly', false);
+	$("#descrip_accion").val('');
+	$("#descrip_accion").on('blur', false);
 
 	// eliminar el boton de submit de formulario
-	$("#id_boton_buscar_usuario").remove();
+	$("#id_boton_buscar_accion").remove();
 
 	// eliminar la imagen para terminar el formulario
 	$("#id_imagen_enviar_form").remove();
+
+	// eliminar el button para submit el formulario de search
+	$("#id_accionsubmit").remove();
 
 	// se pone visible el formulario
 	$("#id_caja_formulario_accion").attr('style', 'display: none');
@@ -192,22 +310,26 @@ async function ADDaccionajax() {
 	setLang();
 	document.getElementById('id_form_accion').remove();
 	document.getElementById('id_imagen_enviar_form').remove();
+	window.location.reload();
 }
-function crearformADDaccion(){
+function crearformADDaccion() {
 
 	// resetear el formulario
 	resetearformaccion();
 
 	// se rellena el action del formulario
 	document.getElementById('id_form_accion').action = 'http://193.147.87.202/procesaform.php';
-	
+
+	document.getElementById('id_accion').onblur = comprobar_id_accion;
 	document.getElementById('id_accion').value = '';
+	document.getElementById('nombre_accion').onblur = comprobar_nombre_accion;
 	document.getElementById('nombre_accion').value = '';
+	document.getElementById('descrip_accion').onblur = comprobar_descrip_accion;
 	document.getElementById('descrip_accion').value = '';
 
 	// se coloca una imagen para la accion de editar
 	imagenenviarform = document.createElement("img");
-	imagenenviarform.src="./images/add4.png";
+	imagenenviarform.src = "./images/add4.png";
 	imagenenviarform.id = "id_imagen_enviar_form";
 	imagenenviarform.width = '80';
 	imagenenviarform.height = '80';
@@ -270,36 +392,37 @@ async function EDITaccionajax() {
 	setLang();
 	document.getElementById('id_form_accion').remove();
 	document.getElementById('id_imagen_enviar_form').remove();
+	window.location.reload();
 }
 
-function crearformEDITaccion(id_accion,nombre_accion,descrip_accion){
+function crearformEDITaccion(id_accion, nombre_accion, descrip_accion) {
 
 	// resetear al formulario
 	resetearformaccion();
-	
+
 	// se crea el action del formulario 
-	$("#id_form_persona").attr('action','http://193.147.87.202/procesaform.php');
-	
+	$("#id_form_persona").attr('action', 'http://193.147.87.202/procesaform.php');
+
 	// se pone no editable el dni al ser clave primaria y no querer que se modifique por el usuario
 	// se pone la funcion de comprobación aunque no sea necesaria y se pone el valor por defecto que se proporciona como parametro
-	$("#id_accion").attr('readonly',true);
-	//$("#id_accion").blur(comprobar_dni);
+	$("#id_accion").attr('readonly', true);
+	$("#id_accion").blur(comprobar_id_accion);
 	$("#id_accion").val(id_accion);
-	//$("#id_nombre").blur(comprobar_nombre);
+	$("#nombre_accion").blur(comprobar_nombre_accion);
 	$("#nombre_accion").val(nombre_accion);
-//	$("#id_descripcion").blur(comprobar_descripcion);
-    $("#descrip_accion").val(descrip_accion);
+	$("#descrip_accion").blur(comprobar_descrip_accion);
+	$("#descrip_accion").val(descrip_accion);
 
 	// se coloca una imagen para la accion de editar
 	imagenenviarform = document.createElement("img");
-	imagenenviarform.src="./images/edit4.png";
+	imagenenviarform.src = "./images/edit4.png";
 	imagenenviarform.id = "id_imagen_enviar_form";
 	imagenenviarform.width = '80';
 	imagenenviarform.height = '80';
 	document.body.appendChild(imagenenviarform);
 	// se coloca una función onclick que hará las comprobaciones y el submit
 	$("#id_imagen_enviar_form").on('click', edit_accion);
-	
+
 	// se muestra el formulario
 	$("#id_caja_formulario_accion").attr('style', 'display: block');
 }
@@ -354,28 +477,29 @@ async function DELETEaccionajax() {
 	setLang();
 	document.getElementById('id_form_accion').remove();
 	document.getElementById('id_imagen_enviar_form').remove();
+	window.location.reload();
 }
 
 
-function crearformDELETEaccion(id_accion,nombre_accion,descrip_accion){
+function crearformDELETEaccion(id_accion, nombre_accion, descrip_accion) {
 
 	resetearformaccion();
-	
-	$("#id_form_accion").attr('action','http://193.147.87.202/procesaform.php');
-	
-	$("#id_accion").attr('readonly','true')
+
+	$("#id_form_accion").attr('action', 'http://193.147.87.202/procesaform.php');
+
+	$("#id_accion").attr('readonly', 'true')
 	$("#id_accion").val(id_accion);
 
-	
+
 	$("#id_accion").val(id_accion);
 	$("#nombre_accion").val(nombre_accion);
 	$("#descrip_accion").val(descrip_accion);
-	
 
-	
+
+
 	// se coloca una imagen para la accion de editar
 	imagenenviarform = document.createElement("img");
-	imagenenviarform.src="./images/delete4.png";
+	imagenenviarform.src = "./images/delete4.png";
 	imagenenviarform.id = "id_imagen_enviar_form";
 	imagenenviarform.width = '80';
 	imagenenviarform.height = '80';
@@ -386,44 +510,100 @@ function crearformDELETEaccion(id_accion,nombre_accion,descrip_accion){
 	$("#id_caja_formulario_accion").attr('style', 'display: block');
 }
 
-// crearformSEARCHusuario() creado con jquery (except el option que utiliza javascript)
-// Este formulario se crea usando la estructura básica del formulario html en gestionusuario.html
-// Se crea un input image para actuar como un input submit y que el formulario haga el submit al pulsarlo
-// Cuando esto pasa se llama a la funcion search_usuario en el onsubmit y se hace la comprobación de atributos
-// cuando esta función devuelve true se ejecuta el action
+function accionSEARCHAjaxPromesa() {
 
-function crearformSEARCHaccion(){
+	crearformoculto('form_generico', '');
+	insertacampo('form_generico', 'controlador', 'accion');
+	insertacampo('form_generico', 'action', 'SEARCH');
+	insertacampo('form_generico', 'id_accion', document.getElementById('id_accion').value);
+	insertacampo('form_generico', 'nombre_accion', document.getElementById('nombre_accion').value);
+	insertacampo('form_generico', 'descrip_accion', document.getElementById('descrip_accion').value);
+	return new Promise(function (resolve, reject) {
+		$.ajax({
+			method: "POST",
+			url: "http://193.147.87.202/Back/index.php",
+			data: $("#form_generico").serialize(),
+		}).done(res => {
+			if (res.ok != true) {
+				alert('res.ok != true');
+				reject(res);
+			}
+			else {
+				alert('res.ok == true');
+				resolve(res);
+			}
+		})
+			.fail(function (jqXHR) {
+				alert('fail!!!:' + jqXHR.status);
+				mensajeHTTPFAIL(jqXHR.status);
+			});
+	}
+	)
+}
+
+
+async function SEARCHaccionajax() {
+
+	var idioma = getCookie('lang');
+
+	await accionSEARCHAjaxPromesa()
+		.then((res) => {
+
+			if (res.code = 'SQL_OK') {
+				res.code = 'search_accion_OK';
+			}
+			getListAcciones(res.resource);
+			//mensajeOK(res.code);
+		})
+		.catch((res) => {
+			alert('.catch');
+			mensajeFAIL(res.code);
+		});
+	setLang();
+	document.getElementById('form_generico').remove();
+
+}
+
+function crearformSEARCHaccion() {
 
 	// reseteo el formulario
-	resetearformusuario();
-	
+	resetearformaccion();
+
 	// creo la accion para el formulario y el onsubmit
-	$("#id_form_accion").attr('action','http://193.147.87.202/procesaform.php');
-	$("#id_form_accion").on('submit', search_usuario);
-	
+	//$("#id_form_persona").attr('action','http://193.147.87.202/procesaform.php');
+	$("#id_form_accion").on('submit', search_accion);
+
 	// pongo el campo de dni editable y le asocio la funcion para el onblur
 	$("#id_accion").attr('readonly', false);
+	$("#id_accion").blur(comprobar_id_accion_search);
+	$("#id_accion").val('');
 
-	// pongo el campo de usuario editable y le asocio la funcion para el onblur
-	$("#nombre_accion").attr('readonly',false);
-	$("#descrip_accion").attr('readonly', false);
+	// pongo el campo de nombre_persona editable y le asocio la funcion para el onblur
+	$("#nombre_accion").attr('readonly', false)
+	$("#nombre_accion").blur(comprobar_nombre_accion_search);
+	$("#nombre_accion").val('');
 
-		
-	//eliminamos la imagen que utilizamos en las otras acciones para poder hacer un submit con el formulario
-	$("#id_imagen_enviar_form").remove();
+	// pongo el campo de apellidos_persona editable y le asocio la funcion para el onblur
+	$("#descrip_accion").attr('readonly', false)
+	$("#descrip_accion").blur(comprobar_descrip_accion_search);
+	$("#descrip_accion").val('');
+
 
 	//creo un input de tipo image que el formulario va utilizar como si fuese un tipo input submit
-	botonsubmit = document.createElement("input");
-	botonsubmit.type = 'image';
-	botonsubmit.id = "id_boton_buscar_usuario";
-	botonsubmit.title= "Buscar";
-	botonsubmit.alt= "Buscar";
-	botonsubmit.src= "./images/search4.png";
+	botonsubmit = document.createElement("img");
+	//botonsubmit.type = 'image';
+	botonsubmit.id = "id_boton_buscar_accion";
+	botonsubmit.className = 'titulo_search';
+	botonsubmit.src = "./images/search4.png";
 	botonsubmit.width = '80';
 	botonsubmit.height = '80';
-	
+	document.body.appendChild(botonsubmit);
+
 	// coloco la imagen para submit en el formulario
-	$("#id_form_accion").append(botonsubmit);
+	$("#id_boton_buscar_accion").on('click', search_accion);
+	//$("#id_form_persona").append(botonsubmit);
+
+	setLang();
 
 	// se pone visible el formulario
 	$("#id_caja_formulario_accion").attr('style', 'display: block');
@@ -431,31 +611,50 @@ function crearformSEARCHaccion(){
 
 
 
-function crearformSHOWCURRENTaccion(id_accion,nombre_accion,descrip_accion){
 
-	let data = ` ID_ACCION: ${id_accion} \n Nombre: ${nombre_accion } \n Descripcion: ${descrip_accion}`
-	alert(data)
+function crearformSHOWCURRENTaccion(id_accion, nombre_accion, descrip_accion) {
 
-	// reseteo el formulario
-	resetearformusuario();
-	
-	
+	resetearformaccion();
+
+	$("#id_form_accion").attr('action', 'http://193.147.87.202/procesaform.php');
+
+	$("#id_accion").attr('readonly', 'true')
+	$("#id_accion").val(id_accion);
+
+	$("#nombre_accion").attr('readonly', 'true')
+	$("#nombre_accion").val(nombre_accion);
+	$("#descrip_accion").attr('readonly', 'true')
+	$("#descrip_accion").val(descrip_accion);
+
+
+
+	// se coloca una imagen para la accion de editar
+	imagenenviarform = document.createElement("img");
+	imagenenviarform.src = "./images/detail4.png";
+	imagenenviarform.id = "id_imagen_enviar_form";
+	imagenenviarform.width = '80';
+	imagenenviarform.height = '80';
+	document.body.appendChild(imagenenviarform);
+
+	$("#id_caja_formulario_accion").attr('style', 'display: block');
+
+
 }
 
-function devolveracciones(){
+function devolveracciones() {
 
 	datosacciones = new Array();
 	controlacciones = 0;
 	dnibase = '11111';
 	numeroacciones = 5;
 
-	for (let i=0;i<numeroacciones;i++){
-		
+	for (let i = 0; i < numeroacciones; i++) {
+
 		accion = new Array();
-		dnibase = String(Number(dnibase)+Number(23));
+		dnibase = String(Number(dnibase) + Number(23));
 		accion['id_accion'] = dnibase + 'A';
-		accion['nombre_accion'] = 'login'+i;
-		accion['descrip_accion'] = 'login'+i;
+		accion['nombre_accion'] = 'login' + i;
+		accion['descrip_accion'] = 'login' + i;
 
 		datosacciones[i] = accion;
 	}
@@ -507,22 +706,21 @@ async function devolveraccionesajax() {
 	document.getElementById('form_generico').remove();
 }
 
-function getListAcciones(listaacciones){
+function getListAcciones(listaacciones) {
 
-	
-	
-	$("#id_datosacciones").html = '';
+	document.getElementById('id_datosacciones').innerHTML = '';
 
-	for (let accion of listaacciones){
 
-		datosfila = "'"+accion.id_accion+"',"+"'"+accion.nombre_accion+"',"+"'"+accion.descrip_accion+"'";
+	for (let accion of listaacciones) {
 
-		lineatabla = '<tr><td>'+accion['id_accion']+'</td><td>'+accion['nombre_accion']+'</td><td>'+accion['descrip_accion']+"</td>";
-		botonedit = '<td><img class="titulo_edit" src="./images/edit4.png" onclick="crearformEDITaccion('+datosfila+');" width="50" height="50"></td>';
-		botondelete = '<td><img class="titulo_delete" src="./images/delete4.png" width="50" height="50" onclick="crearformDELETEaccion('+datosfila+');"></td>';
-		botonshowcurrent = '<td><img class="titulo_showcurrent" src="./images/detail4.png" width="50" height="50" onclick="crearformSHOWCURRENTaccion('+datosfila+')";></td>';
+		datosfila = "'" + accion.id_accion + "'," + "'" + accion.nombre_accion + "'," + "'" + accion.descrip_accion + "'";
 
-		lineatabla += botonedit+botondelete+botonshowcurrent+"</tr>";
+		lineatabla = '<tr><td>' + accion['id_accion'] + '</td><td>' + accion['nombre_accion'] + '</td><td>' + accion['descrip_accion'] + "</td>";
+		botonedit = '<td><img class="titulo_edit" src="./images/edit4.png" onclick="crearformEDITaccion(' + datosfila + ');" width="50" height="50"></td>';
+		botondelete = '<td><img class="titulo_delete" src="./images/delete4.png" width="50" height="50" onclick="crearformDELETEaccion(' + datosfila + ');"></td>';
+		botonshowcurrent = '<td><img class="titulo_showcurrent" src="./images/detail4.png" width="50" height="50" onclick="crearformSHOWCURRENTaccion(' + datosfila + ')";></td>';
+
+		lineatabla += botonedit + botondelete + botonshowcurrent + "</tr>";
 
 		$("#id_datosacciones").append(lineatabla);
 	}

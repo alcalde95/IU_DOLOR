@@ -12,17 +12,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="./js/md5.js"></script>
   </head>
-  <body onload="ponerinvisibleerror();ponerinvisibleformfuncionalidad();devolverfuncionalidadesajax();setLang();">
+  <body onload="incluircabecera();esta_autenticado();ponerinvisibleerror();ponerinvisibleformfuncionalidad();devolverfuncionalidadesajax();setLang();">
 
     <h1 class="pagina_funcionalidad_wellcome"></h1class></h1>
-    <p onclick="setLang('ES');">ES</p>
-    <p onclick="setLang('EN');">EN</p>
-    <p onclick="setLang('GA');">GA</p>
+    <div id='id_caja_superior'></div>
     <div id='id_caja_error'>
       <div id='id_texterror'></div><img src="./images/cerrar3.jpg" width="20" height="20" onclick="cerrarMensajeError();"/>
     </div>
     <img src='./images/add4.png' height="80" width="80" onclick="crearformADDfuncionalidad();">
-    <img src='./images/search4.png' height="60" width="60" onclick="crearformSEARCHusuario();">
+    <img src='./images/search4.png' height="60" width="60" onclick="crearformSEARCHfuncionalidad();">
     <div>
       <table border='1'>
         <thead>    
@@ -46,18 +44,19 @@
     <div id='id_caja_formulario_funcionalidad'>
       <form id='id_form_funcionalidad' name='form_funcionalidad' method='post'>
 
-        <label class="id_funcionalidad"></label>
+        <label class="funcionalidad"></label>
         <input type='text' id='id_funcionalidad' name='id_funcionalidad'></input>
         <br>
-        <label>nombre_funcionalidad</label>
+        <label class='nombre_funcionalidad'></label>
         <input type='text' id='nombre_funcionalidad' name='nombre_funcionalidad'></input>
         <br>
-        <label>descrip_funcionalidad</label>
+        <label class='descrip_funcionalidad'></label>
         <input type='text' id='descrip_funcionalidad' name='descrip_funcionalidad'></input>
         <br>
       </form>
       <br>
         <img src='' height="80" width="80" id="id_imagen_enviar_form" name="imagen_enviar_form">
     </div>
+    <a href="menu.html">Atrás</a>
   </body>
 </html>
