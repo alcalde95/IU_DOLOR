@@ -1,3 +1,16 @@
+function cerrarMensajeKO(){
+
+	codigos = String(document.getElementById('id_texterror').classList);
+	codigos = codigos.split(' ');
+	for (let codigo of codigos){
+		document.getElementById('id_texterror').classList.remove(codigo);
+	}
+	document.getElementById('id_texterror').innerHTML = '';
+	document.getElementById('id_caja_error').style.borderColor = "";
+	document.getElementById('id_caja_error').style.display = 'none';
+
+}
+
 function deleteAllCookies() {
 	var cookies = document.cookie.split(";");
 	for (var i = 0; i < cookies.length; i++) {
@@ -36,13 +49,7 @@ function ponerinvisibleformrol() {
 	document.getElementById('id_caja_formulario_rol').style.display = 'none';
 }
 
-/*function mensajeKO(idElemento, texto) {
 
-	document.getElementById('id_texterror').innerHTML = texto;
-	document.getElementById('id_caja_error').style.display = 'block';
-	document.getElementById(idElemento).style.borderColor = "#ff0000";
-
-}*/
 
 function mensajeKO(idElemento, codigoerror){
 
@@ -65,19 +72,18 @@ function mensajeOK(idElemento) {
 }
 
 /**Función para crear un formulario oculto*/
-function crearformoculto(name, action) {
+function crearformoculto(name, action){
 
-	if ($("#" + name).length == 0) {
+	if ( $("#" + name).length == 0) {
 
 		var formu = document.createElement('form');
 		document.body.appendChild(formu);
-		formu.name = name;
-		formu.action = action;
-		formu.id = name;
-		formu.style.display = "none";
+	    formu.name = name;
+	    formu.action = action; 
+	    formu.id = name;  
+	    formu.style.display = "none";
 
-	}
-
+	} 
 }
 
 /**Función para insertar campos en el formulario a mayores*/
@@ -129,8 +135,8 @@ function mensajeHTTPFAIL(status) {
 
 
 
-function cerrarMensajeError() {
-	document.getElementById('id_texterror').classList.remove;
+function cerrarMensajeError(){
+	document.getElementById('id_texterror').classList.remove(document.getElementById('id_texterror').classList);
 	//codigoanterior = document.getElementById('id_texterror').classList;
 	//document.getElementById('id_texterror').classList.remove(codigoanterior);
 	document.getElementById('id_caja_error').style.display = 'none';

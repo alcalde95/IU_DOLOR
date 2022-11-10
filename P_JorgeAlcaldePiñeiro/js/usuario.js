@@ -283,7 +283,7 @@ function resetearformusuario() {
 
 	// eliminar el button para submit el formulario de search
 	$("#id_accionsubmit").remove();
-
+	
 	// se pone invisible el formulario
 	$("#id_caja_formulario_usuario").attr('style', 'display: none');
 
@@ -327,6 +327,7 @@ async function ADDusuarioajax() {
 				res.code = 'add_usuario_OK';
 			}
 			mensajeOK(res.code);
+			window.location.reload();	
 		})
 		.catch((res) => {
 			mensajeFAIL(res.code);
@@ -336,7 +337,7 @@ async function ADDusuarioajax() {
 	document.getElementById('id_form_usuario').remove();
 	document.getElementById('id_imagen_enviar_form').remove();
 
-	window.location.reload();	
+	
 
 }
 
@@ -354,7 +355,9 @@ function crearformADDusuario() {
 	resetearformusuario();
 
 	// se rellena el action del formulario
+	document.getElementById('id_form_usuario').onblur = add_usuario;
 	document.getElementById('id_form_usuario').action = 'javascript:ADDusuarioajax()';
+	
 
 	// se coloca el onblur del dni y se pone a vacio el valor (o podriamos hacerlo en el resetearformusuario())
 	document.getElementById('id_dni').onblur = comprobar_dni_usuario;
@@ -425,6 +428,7 @@ async function EDITusuarioajax() {
 
 			if (res.code = 'SQL_OK') {
 				res.code = 'edit_usuario_OK';
+				window.location.reload();
 			}
 			mensajeOK(res.code);
 		})
@@ -436,7 +440,7 @@ async function EDITusuarioajax() {
 	document.getElementById('id_form_usuario').remove();
 	document.getElementById('id_imagen_enviar_form').remove();
 
-	window.location.reload();	
+		
 
 }
 
@@ -512,6 +516,7 @@ async function DELETEusuarioajax() {
 
 			if (res.code = 'SQL_OK') {
 				res.code = 'delete_usuario_OK';
+				window.location.reload();
 			}
 			mensajeOK(res.code);
 		})
@@ -523,7 +528,7 @@ async function DELETEusuarioajax() {
 	document.getElementById('id_form_usuario').remove();
 	document.getElementById('id_imagen_enviar_form').remove();
 
-	window.location.reload();	
+		
 
 }
 
@@ -597,6 +602,7 @@ async function SEARCHusuarioAjax() {
 			getListUsuarios(res.resource);
 		})
 		.catch((res) => {
+			alert('.catch');
 			mensajeFAIL(res.code);
 		});
 
