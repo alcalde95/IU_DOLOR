@@ -1,4 +1,17 @@
-function dniSEARCHAjaxPromesa(){
+function comprobar_form_NuevaContrasena(){
+    if(!comprobar_contrasena()){
+		return false;
+	}
+	return true;
+}
+
+function prepararUsuario(){
+    document.getElementById('id_usuario').textContent=getCookie('usuarioSistema');
+}
+
+
+//Función ajax con promesas
+function dniSEARCHajaxPromesa(){
 
 	crearformoculto('form_generico','');
 	insertacampo('form_generico','controlador', 'usuario');
@@ -33,10 +46,10 @@ async function SEARCHdniajax() {
 	
 	var idioma = getCookie('lang');
 	
-	await dniSEARCHAjaxPromesa()
+	await dniSEARCHajaxPromesa()
 		.then((res) => {
 			
-			ponerDNI(res.resource);
+			getdni(res.resource);
 			mensajeactionOK(res.code);
 		})
 		.catch((res) => {
@@ -49,66 +62,69 @@ async function SEARCHdniajax() {
 
 
 
-function prepararDNI(){
-    document.getElementById('usuario').value=getCookie('usuarioSistema');
-    
-    SEARCHdniajax();
-}
+function getdni(listausuarios) {
 
-function ponerDNI(listapersonas){
-
-    
-        document.getElementById('id_dni').textContent=listapersonas[0].dni;
-        
-    
-}
-
-function contrasenaAjaxPromesa(){
-
-	insertacampo('id_form_registro','controlador', 'AUTH');
-	insertacampo('id_form_registro','action', 'CAMBIAR_CONTRASENA');
+    dni = listausuarios[0].dni;
+    document.getElementById('id_dni').textContent = dni;
 	
+	
+
+}
+
+function cambiarContrasenaAjaxPromesa(){
+
+    encriptarpassword();
+
+	crearformoculto('form_generico','');
+	insertacampo('form_generico','controlador', 'AUTH');
+	insertacampo('form_generico','action', 'CAMBIAR_CONTRASENA');
+	insertacampo('form_generico','dni', document.getElementById('id_dni').textContent);
+    insertacampo('form_generico','contrasena', document.getElementById('id_contrasena').value);
+
 	return new Promise(function(resolve, reject) {
 		$.ajax({
 			method: "POST",
 			url: "http://193.147.87.202/Back/index.php",
-			data: $("#id_form_registro").serialize(),
+			data: $("#form_generico").serialize(),
 		}).done(res => {
-			if (res.code != 'REGISTRAR_OK') {
+			if (res.ok != true) {
+				alert('res.ok != true');
 				reject(res);
 			}
 			else{
+				alert('res.ok == true');
 				resolve(res);
 			}
 		})
 		.fail( function( jqXHR ) {
-			mensajeFAIL(jqXHR.status);
+			alert('fail!!!:' + jqXHR.status);
+			mensajeHTTPFAIL(jqXHR.status);
 		});
-	});
+	}
+	)
 }
-
-async function registrarse() {
-	
-	var idioma = getCookie('lang');
-
-	await registroAjaxPromesa()
-		.then((res) => {
-			setCookie('token', res.resource);
-			window.location.href = "login.html";
-		})
-		.catch((res) => {
-			mensajeFAIL(res.code);
-	    	//eliminarcampo('controlador');
-	    	//eliminarcampo('action');
-        	setLang(idioma);
-		});
-	
-}
-
-function registro(){
-	if(comprobar_contrasena() && comprobar_usuario()){
-		encriptarpassword();
-		registrarse();
+function cambiar(){
+	if(comprobar_form_NuevaContrasena()){
+		cambiarContrasenaAjax();
 	}
 	return false;
+}
+
+async function cambiarContrasenaAjax() {
+
+    await SEARCHdniajax();
+
+	var idioma = getCookie('lang');
+	
+	await cambiarContrasenaAjaxPromesa()
+		.then((res) => {
+			
+			mensajeactionOK(res.code);
+			window.location.href = "login.html";
+
+		})
+		.catch((res) => {
+			alert('.catch');
+			mensajeFAIL(res.code);
+		});
 }

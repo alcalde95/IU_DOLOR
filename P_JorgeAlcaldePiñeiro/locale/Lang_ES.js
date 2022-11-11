@@ -8,7 +8,7 @@ arrayES = {
 	'dni_EXISTE_en_persona_KO': 'Dni ya existe en persona',
 	'dni_NO_EXISTE_en_persona_KO': 'El dni no existe en persona',
 
-	'dni_EXISTE_en_usuario_KO': 'Dni ya existe',
+	'dni_EXISTE_EN_usuario_KO': 'Dni ya existe',
 	'dni_NO_EXISTE_en_usuario_KO': 'Debe existir un dni',
 
 	'email_EXISTE_en_persona_KO': 'El email ya existen en la base de datos',
@@ -49,6 +49,7 @@ arrayES = {
 	'pagina_funcionalidad_wellcome': 'Gestión de funcionalidades',
 	'pagina_rol_wellcome': 'Gestión de roles',
 	'pagina_contrasena_wellcome':'Cambio de contraseña',
+	'pagina_rolaccionfuncionalidad_wellcome':'Gestion rolaccionfuncionalidad',
 
 	'contrasenaNueva':'Contraseña nueva',
 	'dni_usuario': 'DNI',

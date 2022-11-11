@@ -726,3 +726,23 @@ function getListAcciones(listaacciones) {
 	}
 
 }
+
+async function pintarselectaccionesAjax(deshabilitado = false, convacio = false, accion=null) {
+	var idioma = getCookie('lang');
+
+	await devolveraccionesAjaxPromesa()
+		.then((res) => {
+			let accion_select = crearselect(convacio,'id_id_accion','id_accion', 'id_accion', 'nombre_accion', res.resource, accion);
+			$("#caja_select_acc").append(accion_select);
+			if (deshabilitado){
+				$("#id_id_accion:not(:selected)").attr('disabled',true);
+			}
+		
+		})
+		.catch((res) => {
+			mensajeFAIL(res.code);
+        	setLang(idioma);
+		});
+
+		
+}

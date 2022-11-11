@@ -145,3 +145,16 @@ function registro(){
 	return false;
 }
 
+
+async function checkCookieLogin() {
+
+	//var idioma = getCookie('lang');
+	var token = getCookie('token');
+	if (token == null) {
+		window.location.replace("./login.html");
+	}
+	else {
+		window.location.replace("./menu.html");
+	}
+};
+

@@ -49,17 +49,21 @@ function ponerinvisibleformrol() {
 	document.getElementById('id_caja_formulario_rol').style.display = 'none';
 }
 
+function ponerinvisibleformrolaccionfuncionalidad() {
+	document.getElementById('id_caja_formulario_rolaccionfuncionalidad').style.display = 'none';
+}
+
 
 
 function mensajeKO(idElemento, codigoerror){
 
+	cerrarMensajeError();
 	document.getElementById('id_texterror').classList.add(codigoerror); 
-	//document.getElementById('id_texterror').innerHTML = codigoerror;
 	document.getElementById('id_caja_error').style.display = 'block';
 	document.getElementById(idElemento).style.borderColor = "#ff0000";
 	setLang();
-
 }
+
 
 
 
@@ -136,7 +140,12 @@ function mensajeHTTPFAIL(status) {
 
 
 function cerrarMensajeError(){
-	document.getElementById('id_texterror').classList.remove(document.getElementById('id_texterror').classList);
+
+	if(document.getElementById('id_texterror').classList.length > 0 ){
+		document.getElementById('id_texterror').classList.remove(document.getElementById('id_texterror').classList);
+		
+	}
+	//document.getElementById('id_texterror').classList.remove(document.getElementById('id_texterror').classList);
 	//codigoanterior = document.getElementById('id_texterror').classList;
 	//document.getElementById('id_texterror').classList.remove(codigoanterior);
 	document.getElementById('id_caja_error').style.display = 'none';
@@ -260,4 +269,35 @@ function esta_autenticado(){
 		 $("#id_caja_superior").append(temp);
 	 }
 	
+}
+
+function crearselect(convacio, id, name, valueoption, textoption, datos, itemseleccionado) {
+
+	
+
+	rol_select = document.createElement("select");
+	rol_select.name = name;
+	rol_select.id = id;
+
+	if (convacio) {
+		option_rol = document.createElement("option");
+		option_rol.value = '';
+		option_rol.text = '';
+		option_rol.selected = true;
+		rol_select.appendChild(option_rol);
+	}
+
+	for (let i = 0; i < datos.length; i++) {
+		option_rol = document.createElement("option");
+		option_rol.value = datos[i][valueoption];
+		option_rol.text = datos[i][textoption];
+
+		if (option_rol.value == itemseleccionado) {
+			option_rol.selected = true;
+		}
+		rol_select.appendChild(option_rol);
+	}
+
+	return rol_select;
+
 }

@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Gestión Rol Acción Funcionalidad</title>
+    <script type="text/javascript" src="./js/persona.js"></script>
+    <script type="text/javascript" src="./js/usuario.js"></script>
+    <script type="text/javascript" src="./js/rolaccionfuncionalidad.js"></script>
+    <script type="text/javascript" src="./js/rol.js"></script>
+    <script type="text/javascript" src="./js/funcionalidad.js"></script>
+    <script type="text/javascript" src="./js/accion.js"></script>
+    <script type="text/javascript" src="./locale/idioma.js"></script>
+    <script type="text/javascript" src="./locale/Lang_EN.js"></script>
+    <script type="text/javascript" src="./locale/Lang_ES.js"></script>
+    <script type="text/javascript" src="./locale/Lang_GA.js"></script>
+    <script type="text/javascript" src="./js/validacionesComunes.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="./js/md5.js"></script>
+  </head>
+  <body onload="ponerinvisibleerror();crearTablarolaccionfuncionalidad();ponerinvisibleformrolaccionfuncionalidad();setLang();incluircabecera();">
+    <div id='id_caja_superior'>
+    </div>
+    <h1 class="pagina_rolaccionfuncionalidad_wellcome"></h1>
+    <a href="menu.html"><p class='titulo_volver'></p></a><br>
+    <img class='titulo_search' src='./images/search4.png' height="60" width="60" onclick="crearformSEARCHrolaccionfuncionalidad();">
+    <div id='id_caja_error'>
+      <div id='id_texterror'></div><img src="./images/cerrar3.jpg" width="20" height="20" onclick="cerrarMensajeError();"/>
+    </div>
+    <div>
+      <table id='id_tablarolaccionfuncionalidad' border='1'>
+        <thead id='id_datostabla'> 
+        </thead>
+        <tbody id='id_datosrolaccionfuncionalidad'>
+        </tbody>
+      </table>
+    </div>
+    <div id='id_caja_formulario_rolaccionfuncionalidad'>
+      <form id='id_form_rolaccionfuncionalidad' name='form_rolaccionfuncionalidad' method='post'>
+  
+        <div id="caja_select_rol"><label class="rol"></label><b>&nbsp;</b></div>
+        <div id="caja_select_fun"><label class="funcionalidad"></label><b>&nbsp;</b></div>
+        <div id="caja_select_acc"><label class="accion"></label><b>&nbsp;</b></div>
+
+
+  
+      </form>
+      <br>
+        <img src='' height="80" width="80" id="id_imagen_enviar_form" name="imagen_enviar_form">
+    </div>
+  </body>
+</html>

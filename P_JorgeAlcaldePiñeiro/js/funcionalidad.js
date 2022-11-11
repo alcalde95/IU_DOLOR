@@ -734,3 +734,25 @@ function getListFuncionalidades(listafuncionalidades) {
 	}
 
 }
+
+
+async function pintarselectfuncionalidadesAjax(deshabilitado = false, convacio = false, funcionalidad=null) {
+	var idioma = getCookie('lang');
+
+	await devolverfuncionalidadesAjaxPromesa()
+		.then((res) => {
+			let funcionalidad_select = crearselect(convacio,'id_id_funcionalidad','id_funcionalidad', 'id_funcionalidad', 'nombre_funcionalidad', res.resource, funcionalidad);
+			$("#caja_select_fun").append(funcionalidad_select);
+			if (deshabilitado){
+				$("#id_id_funcionalidad:not(:selected)").attr('disabled',true);
+			}
+		
+		})
+		.catch((res) => {
+            alert(res.rescode);
+			mensajeFAIL(res.code);
+        	setLang(idioma);
+		});
+
+	
+}

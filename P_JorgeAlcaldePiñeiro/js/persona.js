@@ -12,7 +12,7 @@ const mensaje = (idElemento, texto = '') => {
 // comprobar_form_usuario_add()
 // funcion para validar el submit del formulario usuario para las acciones que no sean search
 
-function comprobar_form_persona_add() {
+function comprobar_form_persona() {
 	alert('entro en comprobar_form_persona');
 	if(comprobar_dni() && comprobar_nombre() && comprobar_apellido() && comprobar_fecha() && comprobar_email() && comprobar_direccion() && comprobar_telefono()){
 		return true
@@ -214,7 +214,7 @@ function comprobar_telefono() {
 
 
 function comprobar_foto() {
-	let fot=document.getElementById('id_foto');
+	let fot=document.getElementById('id_foto').value;
 	if(fot!=""){
 		if (!MinSize('id_foto', 6)) {
 			mensajeKO('id_foto', 'foto_menor_ko')
@@ -416,7 +416,7 @@ function peticionSEARCHpersonaBack() {
 
 function add_persona() {
 
-	if (comprobar_form_persona_add()) {
+	if (comprobar_form_persona()) {
 		peticionADDpersonaBack();
 	}
 
@@ -643,6 +643,7 @@ async function EDITpersonaajax() {
 				res.code = 'edit_persona_OK';
 			}
 			mensajeOK(res.code);
+			window.location.reload();
 		})
 		.catch((res) => {
 			mensajeFAIL(res.code);
@@ -651,7 +652,7 @@ async function EDITpersonaajax() {
 	setLang();
 	document.getElementById('id_form_persona').remove();
 	document.getElementById('id_imagen_enviar_form').remove();
-	window.location.reload();
+	
 }
 
 
@@ -741,6 +742,7 @@ async function DELETEpersonaajax() {
 				res.code = 'delete_persona_OK';
 			}
 			mensajeOK(res.code);
+			window.location.reload();
 		})
 		.catch((res) => {
 			mensajeFAIL(res.code);
@@ -749,7 +751,7 @@ async function DELETEpersonaajax() {
 	setLang();
 	document.getElementById('id_form_persona').remove();
 	document.getElementById('id_imagen_enviar_form').remove();
-	window.location.reload();
+	
 }
 
 function crearformDELETEpersona(dni, nombre, apellido, fecha_nacimiento, direccion, telefono, email, foto) {
